@@ -7,6 +7,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout << "Hello World!" << endl;
-    cout << "No" << endl;
+    cout << "Yes" << endl;
     return 0;
 }
