@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -49,6 +50,30 @@ double mean(double arr[], int size)
     double aSum = sum(arr);
     return aSum / size;
 }
+void swap(double *xp, double *yp) 
+{ 
+	double temp = *xp; 
+	*xp = *yp; 
+	*yp = temp; 
+} 
+
+void insertionSort(double arr[], int n) 
+{ 
+	int i, key, j; 
+	for (i = 1; i < n; i++) { 
+		key = arr[i]; 
+		j = i - 1; 
+
+		/* Move elements of arr[0..i-1], that are 
+		greater than key, to one position ahead 
+		of their current position */
+		while (j >= 0 && arr[j] > key) { 
+			arr[j + 1] = arr[j]; 
+			j = j - 1; 
+		} 
+		arr[j + 1] = key; 
+	} 
+} 
 
 int main(int argc, char *argv[])
 {
@@ -82,7 +107,7 @@ int main(int argc, char *argv[])
     infile.seekg(0);
     int size = getlinenum(infile);
 
-    //Putting data set into arrays
+     //Putting data set into arrays
     double x[size];
     double y[size];
     string buffer;
@@ -100,6 +125,12 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(a) << endl;
     cout << "mean: " << mean(a, arrSize) << endl;
+    insertionSort(x, size);
+    insertionSort(y, size);
+
+    int medianpos = ceil(size/2);
+
+    cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
 
     infile.close();
     return 0;
