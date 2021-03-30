@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     }
 
     //Getting number of lines in file (to be used to create an array that fits the data)
-    double linenum = 0;
+    int linenum = 0;
     string line;
     while(!infile.eof())
     {
