@@ -20,7 +20,19 @@ void splitting(string buffer, string delimiter, int *x, int *y)
     *y = stoi(buffer.substr(startpos, endpos - startpos));
 }
 
-
+int getlinenum(ifstream &infile)
+{
+    double linenum = 0;
+    string line;
+    while(!infile.eof())
+    {
+        getline(infile, line);
+        ++linenum;
+    }
+    infile.clear();
+    infile.seekg(0);
+    return linenum;
+}
 
 int main(int argc, char *argv[])
 {
@@ -40,18 +52,8 @@ int main(int argc, char *argv[])
     }
 
     //Getting number of lines in file (to be used to create an array that fits the data)
-    double linenum = 0;
-    string line;
-    while(!infile.eof())
-    {
-        getline(infile, line);
-        ++linenum;
-    }
-    cout << linenum << endl;
-
+    cout << getlinenum(infile) << endl;
     //returning to beginning of file
-    infile.clear();
-    infile.seekg(0);
 
     string buffer;
     for(int i = 0; i < 50; i++)
