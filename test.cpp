@@ -53,15 +53,16 @@ int main(int argc, char *argv[])
     infile.clear();
     infile.seekg(0);
 
-    char buffer[256];
-
-    infile >> buffer;
-    int x ;
-    int y;
-    char delimiter[] = ",";
-    splitting(buffer, delimiter, &x, &y);
-
-    cout << x << " " << y << endl;
+    string buffer;
+    for(int i = 0; i < 50; i++)
+    {
+        infile >> buffer;
+        int x;
+        int y;
+        char delimiter[] = ",";
+        splitting(buffer, delimiter, &x, &y);
+        cout << x << " " << y << endl;
+    }
 
     infile.close();
     return 0;

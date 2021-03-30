@@ -1,2 +1,4 @@
 test.dSYM/
 test
+*.exe
+*.csv
