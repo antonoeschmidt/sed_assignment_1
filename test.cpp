@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     //Getting number of lines in file (to be used to create an array that fits the data)
     int size = getlinenum(infile);
 
-    //Putting data set into arrays
+     //Putting data set into arrays
     double x[size];
     double y[size];
     string buffer;
