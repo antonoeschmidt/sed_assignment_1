@@ -7,7 +7,7 @@ using namespace std;
 
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
-void splitting(string buffer, string delimiter, int *x, int *y)
+void splitting(string buffer, string delimiter, double *x, double *y)
 {
     int startpos = 0;
     int endpos = buffer.find(delimiter);
@@ -17,10 +17,22 @@ void splitting(string buffer, string delimiter, int *x, int *y)
     {
         startpos = endpos + delimiter.size();
     }
-    *y = stoi(buffer.substr(startpos, endpos - startpos));
+    *y = stoi(buffer.substr(startpos, endpos - startpos)); // Negative string length means it starts from behind
 }
 
-
+int getlinenum(ifstream &infile)
+{
+    double linenum = 0;
+    string line;
+    while(!infile.eof())
+    {
+        getline(infile, line);
+        ++linenum;
+    }
+    infile.clear();
+    infile.seekg(0);
+    return linenum;
+}
 
 int main(int argc, char *argv[])
 {
@@ -52,16 +64,17 @@ int main(int argc, char *argv[])
     //returning to beginning of file
     infile.clear();
     infile.seekg(0);
+    int size = getlinenum(infile);
 
+    //Putting data set into arrays
+    double x[size];
+    double y[size];
     string buffer;
-    for(int i = 0; i < 50; i++)
+    for(int i = 0; i < size; i++)
     {
         infile >> buffer;
-        int x;
-        int y;
         char delimiter[] = ",";
-        splitting(buffer, delimiter, &x, &y);
-        cout << x << " " << y << endl;
+        splitting(buffer, delimiter, &x[i], &y[i]);
     }
 
     infile.close();
