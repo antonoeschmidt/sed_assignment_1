@@ -16,6 +16,7 @@ void splitting(string buffer, string delimiter, double *x, double *y)
     {
         startpos = endpos + delimiter.size();
     }
+
     *y = stoi(buffer.substr(startpos, endpos - startpos));
 }
 
@@ -31,6 +32,22 @@ int getlinenum(ifstream &infile)
     infile.clear();
     infile.seekg(0);
     return linenum;
+}
+
+double sum(double arr[])
+{
+    double sum = 0;
+    for (int i = 0; i < sizeof(*arr); i++)
+    {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+double mean(double arr[], int size)
+{
+    double aSum = sum(arr);
+    return aSum / size;
 }
 
 int main(int argc, char *argv[])
@@ -76,6 +93,13 @@ int main(int argc, char *argv[])
         infile >> buffer;
         splitting(buffer, delimiter, &x[i], &y[i]);
     }
+
+    double a[] = {5, 10, 15};
+
+    int arrSize = sizeof(a) / sizeof(a[0]);
+    cout << "size: " << arrSize << endl;
+    cout << "sum: " << sum(a) << endl;
+    cout << "mean: " << mean(a, arrSize) << endl;
 
     infile.close();
     return 0;
