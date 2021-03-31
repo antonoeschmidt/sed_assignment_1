@@ -32,7 +32,10 @@ int getlinenum(ifstream &infile)
     }
     infile.clear();
     infile.seekg(0);
-    return linenum;
+    //Skip the "x,y" line
+    getline(infile,line);
+    //Accounting for x,y
+    return linenum - 1;
 }
 
 double sum(double arr[])
@@ -93,27 +96,18 @@ int main(int argc, char *argv[])
     }
 
     //Getting number of lines in file (to be used to create an array that fits the data)
-    int linenum = 0;
-    string line;
-    while (!infile.eof())
-    {
-        getline(infile, line);
-        ++linenum;
-    }
-    cout << linenum << endl;
 
     int size = getlinenum(infile);
-
-     //Putting data set into arrays
+    //Putting data set into arrays
     double x[size];
     double y[size];
     string buffer;
     char delimiter[] = ",";
-    getline(infile, line);
     for (int i = 0; i < size; i++)
     {
         infile >> buffer;
         splitting(buffer, delimiter, &x[i], &y[i]);
+        cout << x[i] << endl;
     }
 
     double a[] = {5, 10, 15};
