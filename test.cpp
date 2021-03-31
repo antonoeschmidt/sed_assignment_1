@@ -102,9 +102,6 @@ int main(int argc, char *argv[])
     }
     cout << linenum << endl;
 
-    //returning to beginning of file
-    infile.clear();
-    infile.seekg(0);
     int size = getlinenum(infile);
 
      //Putting data set into arrays
