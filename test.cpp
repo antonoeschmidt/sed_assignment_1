@@ -21,6 +21,65 @@ void formatoutput(double output)
     cout << setprecision(5) << output;
 }
 
+// *** QuickSort from Teacher *** //
+void swap(double *a, double *b)
+{
+    double t = *a;
+    *a = *b;
+    *b = t;
+}
+/* This function takes last element as pivot, places
+ * the pivot element at its correct position in sorted
+ * array, and places all smaller (smaller than pivot)
+ * to left of pivot and all greater elements to right
+ * of pivot */
+int partition(double arr[], int low, int high)
+{
+    double pivot = arr[high];
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (arr[j] <= pivot)
+        {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+/* The main function that implements QuickSort
+ * arr[] --> Array to be sorted,
+ * low --> Starting index,
+ * high --> Ending index
+ */
+void quickSort(double arr[], int low, int high)
+{
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
+		at right place */
+        int pi = partition(arr, low, high);
+
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void print_array(double arr[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+// *** END QUICKSORT ** //
+
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
 void splitting(string buffer, string delimiter, double *x, double *y)
@@ -60,10 +119,11 @@ int getlinenum(ifstream &infile)
     infile.seekg(0);
     return linenum;
 }
-double sum(double arr[])
+
+double sum(double arr[], int size)
 {
     double sum = 0;
-    for (int i = 0; i < sizeof(*arr); i++)
+    for (int i = 0; i < size; i++)
     {
         sum += arr[i];
     }
@@ -72,37 +132,49 @@ double sum(double arr[])
 
 double mean(double arr[], int size)
 {
-    double aSum = sum(arr);
+    double aSum = sum(arr, size);
     return aSum / size;
 }
-void swap(double *xp, double *yp) 
-{ 
-	double temp = *xp; 
-	*xp = *yp; 
-	*yp = temp; 
-} 
 
-void insertionSort(double arr[], int n) 
-{ 
-	int i, key, j; 
-	for (i = 1; i < n; i++) { 
-		key = arr[i]; 
-		j = i - 1; 
+double var(double arr[], int size)
+{
+    double aMean = mean(arr, size);
+    double se[size]; // abb. for squared error, NOT standard error
+    for (int i = 0; i < size; i++)
+    {
+        se[i] = (arr[i] - aMean) * (arr[i] - aMean);
+    }
+    return sum(se, size) / (size - 1);
+}
 
-		/* Move elements of arr[0..i-1], that are 
-		greater than key, to one position ahead 
-		of their current position */
-		while (j >= 0 && arr[j] > key) { 
-			arr[j + 1] = arr[j]; 
-			j = j - 1; 
-		} 
-		arr[j + 1] = key; 
-	} 
-} 
+// double mode(double arr[], int size){
+//     double out = 0;
+//     for(int i=0; i<size; i++){
+//         int count = 0;
+//         for(int j = 0; j<size; j++) {
+//             if(arr[j] == arr[i]){
+
+//             }
+//         }
+//     }
+// }
+
+double meanAbsoluteDeviation(double arr[], int size)
+{
+    double sum;
+    double aMean = mean(arr, size);
+    for (int i = 0; i < size; i++)
+    {
+        sum += fabs(arr[i] - aMean);
+    }
+    cout << sum / size << endl;
+
+    return sum / size;
+}
 
 int main(int argc, char *argv[])
 {
-    //Checks if the program is executed in the correct format
+    // Checks if the program is executed in the correct format
     if (argc != 2)
     {
         cout << "Invalid amount of argument";
@@ -118,7 +190,6 @@ int main(int argc, char *argv[])
     }
 
     //Getting number of lines in file (to be used to create an array that fits the data)
-
     int size = getlinenum(infile);
     //Putting data set into arrays
     double x[size];
@@ -128,22 +199,30 @@ int main(int argc, char *argv[])
     for (int i = 0; i < size; i++)
     {
         infile >> buffer;
+        try
+        {
         splitting(buffer, delimiter, &x[i], &y[i]);
-        cout << x[i] << endl;
+        }
+        catch (const invalid_argument)
+        {
+            continue;
+        }
     }
 
-    double a[] = {5, 10, 15};
+    int arrSize = sizeof(x) / sizeof(y[0]);
 
-    int arrSize = sizeof(a) / sizeof(a[0]);
+    // TESTING OUTPUT
     cout << "size: " << arrSize << endl;
-    cout << "sum: " << sum(a) << endl;
-    cout << "mean: " << mean(a, arrSize) << endl;
-    insertionSort(x, size);
-    insertionSort(y, size);
+    cout << "sum: " << sum(x, arrSize) << endl;
+    cout << "mean: " << mean(x, arrSize) << endl;
+    cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
 
-    int medianpos = ceil(size/2);
+    // TESTING SORTING
+    // print_array(x, arrSize);
+    // quickSort(x, 0, arrSize);
+    // print_array(x, arrSize);
 
-    cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
+    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
 
     infile.close();
     return 0;
