@@ -5,6 +5,58 @@
 
 using namespace std;
 
+// *** QuickSort from Teacher *** //
+void swap(double* a, double* b) {
+	double t = *a;
+	*a = *b;
+	*b = t;
+}
+/* This function takes last element as pivot, places
+ * the pivot element at its correct position in sorted
+ * array, and places all smaller (smaller than pivot)
+ * to left of pivot and all greater elements to right
+ * of pivot */
+int partition (double arr[], int low, int high) {
+	double pivot = arr[high];
+	int i = (low - 1);
+
+	for (int j = low; j <= high- 1; j++) {
+		if (arr[j] <= pivot) {
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
+}
+
+/* The main function that implements QuickSort
+ * arr[] --> Array to be sorted,
+ * low --> Starting index,
+ * high --> Ending index
+ */
+void quickSort(double arr[], int low, int high) {
+	if (low < high) {
+		/* pi is partitioning index, arr[p] is now
+		at right place */
+		int pi = partition(arr, low, high);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
+}
+
+void print_array(double arr[], int size) {
+	int i;
+	for (i=0; i < size; i++)
+		cout << arr[i] <<  " ";
+	cout << endl;
+}
+
+// *** END QUICKSORT ** //
+
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
 void splitting(string buffer, string delimiter, double *x, double *y)
@@ -54,63 +106,26 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
-// Quick sort from Teacher
-void swap(double *a, double *b)
-{
-    double t = *a;
-    *a = *b;
-    *b = t;
-}
-
-/* This function takes last element as pivot, places
- * the pivot element at its correct position in sorted
- * array, and places all smaller (smaller than pivot)
- * to left of pivot and all greater elements to right
- * of pivot */
-int partition(double arr[], int low, int high)
-{
-    double pivot = arr[high];
-    int i = (low - 1);
-
-    for (int j = low; j <= high - 1; j++)
-    {
-        if (arr[j] <= pivot)
-        {
-            i++;
-            swap(&arr[i], &arr[j]);
-        }
+double var(double arr[], int size){
+    double aMean = mean(arr, size);
+    double se[size]; // abb. for squared error, NOT standard error
+    for(int i=0; i<size; i++){
+        se[i] = (arr[i] - aMean) * (arr[i] - aMean);
     }
-    swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+    return sum(se, size) / (size - 1);
 }
 
-/* The main function that implements QuickSort
- * arr[] --> Array to be sorted,
- * low --> Starting index,
- * high --> Ending index
- */
-void quickSort(double arr[], int low, int high)
-{
-    if (low < high)
-    {
-        /* pi is partitioning index, arr[p] is now
-		at right place */
-        int pi = partition(arr, low, high);
-
-        // Separately sort elements before
-        // partition and after partition
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
-}
-
-void print_array(double arr[], int size)
-{
-    int i;
-    for (i = 0; i < size; i++)
-        cout << arr[i] << " ";
-    cout << endl;
-}
+// double mode(double arr[], int size){
+//     double out = 0;
+//     for(int i=0; i<size; i++){
+//         int count = 0;
+//         for(int j = 0; j<size; j++) {
+//             if(arr[j] == arr[i]){
+                
+//             }
+//         }
+//     }
+// }
 
 int main(int argc, char *argv[])
 {
@@ -146,8 +161,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
-
-    // int medianpos = ceil(size/2);
+    // quickSort(x, 0, size);
+    // quickSort(y, 0, size);
 
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
 
