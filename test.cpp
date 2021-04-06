@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <math.h>
-#include "quick_sort.h"
+#include "quick_sort.cpp"
 
 using namespace std;
 
@@ -53,6 +53,15 @@ double mean(double arr[], int size)
     double aSum = sum(arr);
     return aSum / size;
 }
+
+double var(double arr[], int size){
+    double aMean = mean(arr);
+    double hm[size];
+    for(int i=0; i<size, i++){
+        hm[i] = (arr[i] - aMean) ** 2
+    }
+}
+
 void swap(double *xp, double *yp) 
 { 
 	double temp = *xp; 
