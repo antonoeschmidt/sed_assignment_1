@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <math.h>
-#include "quick_sort.h"
 
 using namespace std;
 
@@ -13,12 +12,13 @@ void splitting(string buffer, string delimiter, double *x, double *y)
     int startpos = 0;
     int endpos = buffer.find(delimiter);
 
-    *x = stoi(buffer.substr(startpos, endpos - startpos));
+    *x = stof(buffer.substr(startpos, endpos - startpos));
     if (endpos != -1)
     {
         startpos = endpos + delimiter.size();
     }
-    *y = stoi(buffer.substr(startpos, endpos - startpos)); // Negative string length means it starts from behind
+
+    *y = stof(buffer.substr(startpos, endpos - startpos));
 }
 
 int getlinenum(ifstream &infile)
@@ -60,6 +60,24 @@ void swap(double *xp, double *yp)
 	*yp = temp; 
 } 
 
+void insertionSort(double arr[], int n) 
+{ 
+	int i, key, j; 
+	for (i = 1; i < n; i++) { 
+		key = arr[i]; 
+		j = i - 1; 
+
+		/* Move elements of arr[0..i-1], that are 
+		greater than key, to one position ahead 
+		of their current position */
+		while (j >= 0 && arr[j] > key) { 
+			arr[j + 1] = arr[j]; 
+			j = j - 1; 
+		} 
+		arr[j + 1] = key; 
+	} 
+} 
+
 int main(int argc, char *argv[])
 {
     //Checks if the program is executed in the correct format
@@ -98,8 +116,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(a) << endl;
     cout << "mean: " << mean(a, arrSize) << endl;
-    quickSort(x, size);
-    quickSort(y, size);
+    insertionSort(x, size);
+    insertionSort(y, size);
 
     int medianpos = ceil(size/2);
 
