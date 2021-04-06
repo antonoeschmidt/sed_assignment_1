@@ -5,10 +5,62 @@
 
 using namespace std;
 
+// *** QuickSort from Teacher *** //
+void swap(double* a, double* b) {
+	double t = *a;
+	*a = *b;
+	*b = t;
+}
+/* This function takes last element as pivot, places
+ * the pivot element at its correct position in sorted
+ * array, and places all smaller (smaller than pivot)
+ * to left of pivot and all greater elements to right
+ * of pivot */
+int partition (double arr[], int low, int high) {
+	double pivot = arr[high];
+	int i = (low - 1);
+
+	for (int j = low; j <= high- 1; j++) {
+		if (arr[j] <= pivot) {
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
+}
+
+/* The main function that implements QuickSort
+ * arr[] --> Array to be sorted,
+ * low --> Starting index,
+ * high --> Ending index
+ */
+void quickSort(double arr[], int low, int high) {
+	if (low < high) {
+		/* pi is partitioning index, arr[p] is now
+		at right place */
+		int pi = partition(arr, low, high);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
+}
+
+void print_array(double arr[], int size) {
+	int i;
+	for (i=0; i < size; i++)
+		cout << arr[i] <<  " ";
+	cout << endl;
+}
+
+// *** END QUICKSORT ** //
+
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
 void splitting(string buffer, string delimiter, double *x, double *y)
-{
+{-
     int startpos = 0;
     int endpos = buffer.find(delimiter);
 
@@ -33,15 +85,15 @@ int getlinenum(ifstream &infile)
     infile.clear();
     infile.seekg(0);
     //Skip the "x,y" line
-    getline(infile,line);
+    getline(infile, line);
     //Accounting for x,y
     return linenum - 1;
 }
 
-double sum(double arr[])
+double sum(double arr[], int size)
 {
     double sum = 0;
-    for (int i = 0; i < sizeof(*arr); i++)
+    for (int i = 0; i < size; i++)
     {
         sum += arr[i];
     }
@@ -50,37 +102,57 @@ double sum(double arr[])
 
 double mean(double arr[], int size)
 {
-    double aSum = sum(arr);
+    double aSum = sum(arr, size);
     return aSum / size;
 }
-void swap(double *xp, double *yp) 
-{ 
-	double temp = *xp; 
-	*xp = *yp; 
-	*yp = temp; 
-} 
 
-void insertionSort(double arr[], int n) 
-{ 
-	int i, key, j; 
-	for (i = 1; i < n; i++) { 
-		key = arr[i]; 
-		j = i - 1; 
+double* median(double x[], double y[], long length) {
+    double medianX = 0;
+    double medianY = 0;
 
-		/* Move elements of arr[0..i-1], that are 
-		greater than key, to one position ahead 
-		of their current position */
-		while (j >= 0 && arr[j] > key) { 
-			arr[j + 1] = arr[j]; 
-			j = j - 1; 
-		} 
-		arr[j + 1] = key; 
-	} 
-} 
+    for (int i = 0; i < length - 1; i++) {
+        if ((length - 1) % 2 != 0) { // check whether the array is odd
+            medianX = x[(length - 1) / 2]; // if odd -> median is the middle value
+            medianY = y[(length - 1) / 2];
+        }
+        else { // if the array length is even
+            medianX = x[(length - 1) / 2]; // get the first middle value
+            medianX = (medianX + x[length / 2 - 1]) / 2; // add with the second middle value and divided by 2.
+
+            medianY = y[(length - 1) / 2];
+            medianY = (medianY + y[length / 2 - 1]) / 2;
+        }
+    }
+    cout << "median_x = " << medianX << " - median_y = " << medianY << endl; // print out the median
+    double medians[2] = { medianX, medianY }; // store in array to return the value
+
+    return medians; 
+}
+
+double var(double arr[], int size){
+    double aMean = mean(arr, size);
+    double se[size]; // abb. for squared error, NOT standard error
+    for(int i=0; i<size; i++){
+        se[i] = (arr[i] - aMean) * (arr[i] - aMean);
+    }
+    return sum(se, size) / (size - 1);
+}
+
+// double mode(double arr[], int size){
+//     double out = 0;
+//     for(int i=0; i<size; i++){
+//         int count = 0;
+//         for(int j = 0; j<size; j++) {
+//             if(arr[j] == arr[i]){
+                
+//             }
+//         }
+//     }
+// }
 
 int main(int argc, char *argv[])
 {
-    //Checks if the program is executed in the correct format
+    // Checks if the program is executed in the correct format
     if (argc != 2)
     {
         cout << "Invalid amount of argument";
@@ -96,7 +168,6 @@ int main(int argc, char *argv[])
     }
 
     //Getting number of lines in file (to be used to create an array that fits the data)
-
     int size = getlinenum(infile);
     //Putting data set into arrays
     double x[size];
@@ -107,21 +178,28 @@ int main(int argc, char *argv[])
     {
         infile >> buffer;
         splitting(buffer, delimiter, &x[i], &y[i]);
-        cout << x[i] << endl;
     }
 
-    double a[] = {5, 10, 15};
-
-    int arrSize = sizeof(a) / sizeof(a[0]);
+    int arrSize = sizeof(x) / sizeof(y[0]);
     cout << "size: " << arrSize << endl;
-    cout << "sum: " << sum(a) << endl;
-    cout << "mean: " << mean(a, arrSize) << endl;
-    insertionSort(x, size);
-    insertionSort(y, size);
+    cout << "sum: " << sum(x, arrSize) << endl;
+    cout << "mean: " << mean(x, arrSize) << endl;
 
-    int medianpos = ceil(size/2);
+    
+    double* medians;
+    medians = median(x, y, arrSize);
 
-    cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
+
+
+
+    // quickSort(x, 0, size);
+    // quickSort(y, 0, size);
+
+    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
+
+    print_array(x, arrSize);
+    quickSort(x, 0, arrSize);
+    print_array(x, arrSize);
 
     infile.close();
     return 0;
