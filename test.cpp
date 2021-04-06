@@ -2,8 +2,24 @@
 #include <fstream>
 #include <string>
 #include <math.h>
+#include <iomanip>
 
 using namespace std;
+
+
+void groupinfo()
+{
+    cout << "ASSIGNMENT 1 GROUP 30" << endl;
+    cout << "s3891411, s3891411@rmit.edu.vn, Jeppe Ekstrand Halkjaer Madsen" << endl;
+    cout << "s3877375, s3877375@rmit.edu.vn, Le Pham Ngoc Hieu" << endl;
+    cout << "s3775271, s3775271@rmit.edu.vn, Ramanaharan Ramcharan" << endl;
+    cout << "s3892062, s3892062@rmit.edu.vn, Anton Ostergaard Schmidt" << endl;
+}
+
+void formatoutput(double output)
+{
+    cout << setprecision(5) << output;
+}
 
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
@@ -20,24 +36,30 @@ void splitting(string buffer, string delimiter, double *x, double *y)
 
     *y = stof(buffer.substr(startpos, endpos - startpos));
 }
-
 int getlinenum(ifstream &infile)
 {
-    double linenum = 0;
+    int linenum = 0;
     string line;
+    char delimiter[] = ",";
     while (!infile.eof())
     {
         getline(infile, line);
-        ++linenum;
+        double x[sizeof(line)];
+        double y[sizeof(line)];
+        try
+        {
+        splitting(line, delimiter, x, y);
+        }
+        catch (const invalid_argument)
+        {
+            continue;
+        }
+        linenum++;
     }
     infile.clear();
     infile.seekg(0);
-    //Skip the "x,y" line
-    getline(infile,line);
-    //Accounting for x,y
-    return linenum - 1;
+    return linenum;
 }
-
 double sum(double arr[])
 {
     double sum = 0;
