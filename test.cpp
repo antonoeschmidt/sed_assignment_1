@@ -60,7 +60,7 @@ void print_array(double arr[], int size) {
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
 void splitting(string buffer, string delimiter, double *x, double *y)
-{-
+{
     int startpos = 0;
     int endpos = buffer.find(delimiter);
 
@@ -106,27 +106,25 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
-double* median(double x[], double y[], long length) {
+void median(double x[], double y[], int size) {
     double medianX = 0;
     double medianY = 0;
 
-    for (int i = 0; i < length - 1; i++) {
-        if ((length - 1) % 2 != 0) { // check whether the array is odd
-            medianX = x[(length - 1) / 2]; // if odd -> median is the middle value
-            medianY = y[(length - 1) / 2];
+    for (int i = 0; i < size - 1; i++) {
+        if ((size - 1) % 2 != 0) { // check whether the array is odd
+            medianX = x[(size - 1) / 2]; // if odd -> median is the middle value
+            medianY = y[(size - 1) / 2];
         }
         else { // if the array length is even
-            medianX = x[(length - 1) / 2]; // get the first middle value
-            medianX = (medianX + x[length / 2 - 1]) / 2; // add with the second middle value and divided by 2.
+            medianX = x[(size - 1) / 2]; // get the first middle value
+            medianX = (medianX + x[size / 2 - 1]) / 2; // add with the second middle value and divided by 2.
 
-            medianY = y[(length - 1) / 2];
-            medianY = (medianY + y[length / 2 - 1]) / 2;
+            medianY = y[(size - 1) / 2];
+            medianY = (medianY + y[size / 2 - 1]) / 2;
         }
     }
     cout << "median_x = " << medianX << " - median_y = " << medianY << endl; // print out the median
-    double medians[2] = { medianX, medianY }; // store in array to return the value
-
-    return medians; 
+    
 }
 
 double var(double arr[], int size){
@@ -184,10 +182,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
-
-    
-    double* medians;
-    medians = median(x, y, arrSize);
+    //cout << "median:" << endl;
+    median(x, y, arrSize);
 
 
 
@@ -197,9 +193,9 @@ int main(int argc, char *argv[])
 
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
 
-    print_array(x, arrSize);
+   /* print_array(x, arrSize);
     quickSort(x, 0, arrSize);
-    print_array(x, arrSize);
+    print_array(x, arrSize); */
 
     infile.close();
     return 0;
