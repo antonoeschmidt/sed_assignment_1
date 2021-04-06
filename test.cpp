@@ -12,13 +12,13 @@ void splitting(string buffer, string delimiter, double *x, double *y)
     int startpos = 0;
     int endpos = buffer.find(delimiter);
 
-    *x = stoi(buffer.substr(startpos, endpos - startpos));
+    *x = stof(buffer.substr(startpos, endpos - startpos));
     if (endpos != -1)
     {
         startpos = endpos + delimiter.size();
     }
 
-    *y = stoi(buffer.substr(startpos, endpos - startpos));
+    *y = stof(buffer.substr(startpos, endpos - startpos));
 }
 
 int getlinenum(ifstream &infile)
