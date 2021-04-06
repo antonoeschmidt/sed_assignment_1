@@ -95,6 +95,24 @@ void splitting(string buffer, string delimiter, double *x, double *y)
 
     *y = stof(buffer.substr(startpos, endpos - startpos));
 }
+void fillarray(ifstream &infile, double *x, double *y, int size)
+{
+    char delimiter[] = ",";
+    string buffer;
+    for (int i = 0; i < size; i++)
+    {
+        infile >> buffer;
+        try
+        {
+        splitting(buffer, delimiter, &x[i], &y[i]);
+        }
+        catch (const invalid_argument)
+        {
+            i--;
+            continue;
+        }
+    }
+}
 int getlinenum(ifstream &infile)
 {
     int linenum = 0;
@@ -194,20 +212,7 @@ int main(int argc, char *argv[])
     //Putting data set into arrays
     double x[size];
     double y[size];
-    string buffer;
-    char delimiter[] = ",";
-    for (int i = 0; i < size; i++)
-    {
-        infile >> buffer;
-        try
-        {
-        splitting(buffer, delimiter, &x[i], &y[i]);
-        }
-        catch (const invalid_argument)
-        {
-            continue;
-        }
-    }
+    fillarray(infile, x, y, size);
 
     int arrSize = sizeof(x) / sizeof(y[0]);
 
