@@ -124,6 +124,10 @@ double var(double arr[], int size)
     return sum(se, size) / (size - 1);
 }
 
+double sd(double arr[], int size) {
+    return sqrt(var(arr, size));
+}
+
 // double mode(double arr[], int size){
 //     double out = 0;
 //     for(int i=0; i<size; i++){
@@ -185,6 +189,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
+    cout << "var: " << var(x, arrSize) << endl;
+    cout << "sd: " << sd(x, arrSize) << endl;
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
 
     // TESTING SORTING
