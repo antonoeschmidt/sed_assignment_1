@@ -6,28 +6,32 @@
 using namespace std;
 
 // *** QuickSort from Teacher *** //
-void swap(double* a, double* b) {
-	double t = *a;
-	*a = *b;
-	*b = t;
+void swap(double *a, double *b)
+{
+    double t = *a;
+    *a = *b;
+    *b = t;
 }
 /* This function takes last element as pivot, places
  * the pivot element at its correct position in sorted
  * array, and places all smaller (smaller than pivot)
  * to left of pivot and all greater elements to right
  * of pivot */
-int partition (double arr[], int low, int high) {
-	double pivot = arr[high];
-	int i = (low - 1);
+int partition(double arr[], int low, int high)
+{
+    double pivot = arr[high];
+    int i = (low - 1);
 
-	for (int j = low; j <= high- 1; j++) {
-		if (arr[j] <= pivot) {
-			i++;
-			swap(&arr[i], &arr[j]);
-		}
-	}
-	swap(&arr[i + 1], &arr[high]);
-	return (i + 1);
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (arr[j] <= pivot)
+        {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
 }
 
 /* The main function that implements QuickSort
@@ -35,24 +39,27 @@ int partition (double arr[], int low, int high) {
  * low --> Starting index,
  * high --> Ending index
  */
-void quickSort(double arr[], int low, int high) {
-	if (low < high) {
-		/* pi is partitioning index, arr[p] is now
+void quickSort(double arr[], int low, int high)
+{
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
 		at right place */
-		int pi = partition(arr, low, high);
+        int pi = partition(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
-		quickSort(arr, low, pi - 1);
-		quickSort(arr, pi + 1, high);
-	}
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
 }
 
-void print_array(double arr[], int size) {
-	int i;
-	for (i=0; i < size; i++)
-		cout << arr[i] <<  " ";
-	cout << endl;
+void print_array(double arr[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
 }
 
 // *** END QUICKSORT ** //
@@ -106,10 +113,12 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
-double var(double arr[], int size){
+double var(double arr[], int size)
+{
     double aMean = mean(arr, size);
     double se[size]; // abb. for squared error, NOT standard error
-    for(int i=0; i<size; i++){
+    for (int i = 0; i < size; i++)
+    {
         se[i] = (arr[i] - aMean) * (arr[i] - aMean);
     }
     return sum(se, size) / (size - 1);
@@ -121,11 +130,24 @@ double var(double arr[], int size){
 //         int count = 0;
 //         for(int j = 0; j<size; j++) {
 //             if(arr[j] == arr[i]){
-                
+
 //             }
 //         }
 //     }
 // }
+
+double meanAbsoluteDeviation(double arr[], int size)
+{
+    double sum;
+    double aMean = mean(arr, size);
+    for (int i = 0; i < size; i++)
+    {
+        sum += fabs(arr[i] - aMean);
+    }
+    cout << sum / size << endl;
+
+    return sum / size;
+}
 
 int main(int argc, char *argv[])
 {
@@ -158,17 +180,19 @@ int main(int argc, char *argv[])
     }
 
     int arrSize = sizeof(x) / sizeof(y[0]);
+
+    // TESTING OUTPUT
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
-    // quickSort(x, 0, size);
-    // quickSort(y, 0, size);
+    cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
+
+    // TESTING SORTING
+    // print_array(x, arrSize);
+    // quickSort(x, 0, arrSize);
+    // print_array(x, arrSize);
 
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
-
-    print_array(x, arrSize);
-    quickSort(x, 0, arrSize);
-    print_array(x, arrSize);
 
     infile.close();
     return 0;
