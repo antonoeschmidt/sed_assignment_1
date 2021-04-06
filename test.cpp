@@ -5,6 +5,56 @@
 
 using namespace std;
 
+void swap(double* a, double* b) {
+	double t = *a;
+	*a = *b;
+	*b = t;
+}
+
+/* This function takes last element as pivot, places
+ * the pivot element at its correct position in sorted
+ * array, and places all smaller (smaller than pivot)
+ * to left of pivot and all greater elements to right
+ * of pivot */
+int partition (double arr[], int low, int high) {
+	int pivot = arr[high];
+	int i = (low - 1);
+
+	for (int j = low; j <= high- 1; j++) {
+		if (arr[j] <= pivot) {
+			i++;
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
+}
+
+/* The main function that implements QuickSort
+ * arr[] --> Array to be sorted,
+ * low --> Starting index,
+ * high --> Ending index
+ */
+void quickSort(double arr[], int low, int high) {
+	if (low < high) {
+		/* pi is partitioning index, arr[p] is now
+		at right place */
+		int pi = partition(arr, low, high);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
+}
+
+void print_array(int arr[], int size) {
+	int i;
+	for (i=0; i < size; i++)
+		cout << arr[i] <<  " ";
+	cout << endl;
+}
+
 /* Splitting the string x,y into integers x and y by finding ',' and using it as a 
 reference to split the string*/
 void splitting(string buffer, string delimiter, double *x, double *y)
@@ -53,30 +103,27 @@ double mean(double arr[], int size)
     double aSum = sum(arr);
     return aSum / size;
 }
-void swap(double *xp, double *yp) 
-{ 
-	double temp = *xp; 
-	*xp = *yp; 
-	*yp = temp; 
-} 
 
-void insertionSort(double arr[], int n) 
-{ 
-	int i, key, j; 
-	for (i = 1; i < n; i++) { 
-		key = arr[i]; 
-		j = i - 1; 
+double var(double arr[], int size){
+    double aMean = mean(arr, size);
+    double se[size]; // abb. for squared error, NOT standard error
+    for(int i=0; i<size; i++){
+        se[i] = (arr[i] - aMean) * (arr[i] - aMean);
+    }
+    return sum(se) / (size - 1);
+}
 
-		/* Move elements of arr[0..i-1], that are 
-		greater than key, to one position ahead 
-		of their current position */
-		while (j >= 0 && arr[j] > key) { 
-			arr[j + 1] = arr[j]; 
-			j = j - 1; 
-		} 
-		arr[j + 1] = key; 
-	} 
-} 
+double mode(double arr[], int size){
+    double out = 0;
+    for(int i=0; i<size; i++){
+        int count = 0;
+        for(int j = 0; j<size, j++){
+            if(arr[j] == arr[i]){
+                
+            }
+        }
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -116,8 +163,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(a) << endl;
     cout << "mean: " << mean(a, arrSize) << endl;
-    insertionSort(x, size);
-    insertionSort(y, size);
+    quickSort(x, 0, size);
+    quickSort(y, 0, size);
 
     int medianpos = ceil(size/2);
 
