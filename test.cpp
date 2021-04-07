@@ -2,32 +2,52 @@
 #include <fstream>
 #include <string>
 #include <math.h>
+#include <iomanip>
 
 using namespace std;
 
+
+void groupinfo()
+{
+    cout << "ASSIGNMENT 1 GROUP 30" << endl;
+    cout << "s3891411, s3891411@rmit.edu.vn, Jeppe Ekstrand Halkjaer Madsen" << endl;
+    cout << "s3877375, s3877375@rmit.edu.vn, Le Pham Ngoc Hieu" << endl;
+    cout << "s3775271, s3775271@rmit.edu.vn, Ramanaharan Ramcharan" << endl;
+    cout << "s3892062, s3892062@rmit.edu.vn, Anton Ostergaard Schmidt" << endl;
+}
+
+void formatoutput(double output)
+{
+    cout << setprecision(5) << output;
+}
+
 // *** QuickSort from Teacher *** //
-void swap(double* a, double* b) {
-	double t = *a;
-	*a = *b;
-	*b = t;
+void swap(double *a, double *b)
+{
+    double t = *a;
+    *a = *b;
+    *b = t;
 }
 /* This function takes last element as pivot, places
  * the pivot element at its correct position in sorted
  * array, and places all smaller (smaller than pivot)
  * to left of pivot and all greater elements to right
  * of pivot */
-int partition (double arr[], int low, int high) {
-	double pivot = arr[high];
-	int i = (low - 1);
+int partition(double arr[], int low, int high)
+{
+    double pivot = arr[high];
+    int i = (low - 1);
 
-	for (int j = low; j <= high- 1; j++) {
-		if (arr[j] <= pivot) {
-			i++;
-			swap(&arr[i], &arr[j]);
-		}
-	}
-	swap(&arr[i + 1], &arr[high]);
-	return (i + 1);
+    for (int j = low; j <= high - 1; j++)
+    {
+        if (arr[j] <= pivot)
+        {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
 }
 
 /* The main function that implements QuickSort
@@ -35,24 +55,27 @@ int partition (double arr[], int low, int high) {
  * low --> Starting index,
  * high --> Ending index
  */
-void quickSort(double arr[], int low, int high) {
-	if (low < high) {
-		/* pi is partitioning index, arr[p] is now
+void quickSort(double arr[], int low, int high)
+{
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
 		at right place */
-		int pi = partition(arr, low, high);
+        int pi = partition(arr, low, high);
 
-		// Separately sort elements before
-		// partition and after partition
-		quickSort(arr, low, pi - 1);
-		quickSort(arr, pi + 1, high);
-	}
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
 }
 
-void print_array(double arr[], int size) {
-	int i;
-	for (i=0; i < size; i++)
-		cout << arr[i] <<  " ";
-	cout << endl;
+void print_array(double arr[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
 }
 
 // *** END QUICKSORT ** //
@@ -72,22 +95,47 @@ void splitting(string buffer, string delimiter, double *x, double *y)
 
     *y = stof(buffer.substr(startpos, endpos - startpos));
 }
-
+void fillarray(ifstream &infile, double *x, double *y, int size)
+{
+    char delimiter[] = ",";
+    string buffer;
+    for (int i = 0; i < size; i++)
+    {
+        infile >> buffer;
+        try
+        {
+        splitting(buffer, delimiter, &x[i], &y[i]);
+        }
+        catch (const invalid_argument)
+        {
+            i--;
+            continue;
+        }
+    }
+}
 int getlinenum(ifstream &infile)
 {
-    double linenum = 0;
+    int linenum = 0;
     string line;
+    char delimiter[] = ",";
     while (!infile.eof())
     {
         getline(infile, line);
-        ++linenum;
+        double x[sizeof(line)];
+        double y[sizeof(line)];
+        try
+        {
+        splitting(line, delimiter, x, y);
+        }
+        catch (const invalid_argument)
+        {
+            continue;
+        }
+        linenum++;
     }
     infile.clear();
     infile.seekg(0);
-    //Skip the "x,y" line
-    getline(infile, line);
-    //Accounting for x,y
-    return linenum - 1;
+    return linenum;
 }
 
 double sum(double arr[], int size)
@@ -106,6 +154,7 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
+<<<<<<< HEAD
 void median(double x[], double y[], int size) {
     double medianX = 0;
     double medianY = 0;
@@ -128,9 +177,14 @@ void median(double x[], double y[], int size) {
 }
 
 double var(double arr[], int size){
+=======
+double var(double arr[], int size)
+{
+>>>>>>> master
     double aMean = mean(arr, size);
     double se[size]; // abb. for squared error, NOT standard error
-    for(int i=0; i<size; i++){
+    for (int i = 0; i < size; i++)
+    {
         se[i] = (arr[i] - aMean) * (arr[i] - aMean);
     }
     return sum(se, size) / (size - 1);
@@ -142,11 +196,24 @@ double var(double arr[], int size){
 //         int count = 0;
 //         for(int j = 0; j<size; j++) {
 //             if(arr[j] == arr[i]){
-                
+
 //             }
 //         }
 //     }
 // }
+
+double meanAbsoluteDeviation(double arr[], int size)
+{
+    double sum;
+    double aMean = mean(arr, size);
+    for (int i = 0; i < size; i++)
+    {
+        sum += fabs(arr[i] - aMean);
+    }
+    cout << sum / size << endl;
+
+    return sum / size;
+}
 
 int main(int argc, char *argv[])
 {
@@ -170,18 +237,15 @@ int main(int argc, char *argv[])
     //Putting data set into arrays
     double x[size];
     double y[size];
-    string buffer;
-    char delimiter[] = ",";
-    for (int i = 0; i < size; i++)
-    {
-        infile >> buffer;
-        splitting(buffer, delimiter, &x[i], &y[i]);
-    }
+    fillarray(infile, x, y, size);
 
     int arrSize = sizeof(x) / sizeof(y[0]);
+
+    // TESTING OUTPUT
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
+<<<<<<< HEAD
     //cout << "median:" << endl;
     median(x, y, arrSize);
 
@@ -190,12 +254,22 @@ int main(int argc, char *argv[])
 
     // quickSort(x, 0, size);
     // quickSort(y, 0, size);
+=======
+    cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
+>>>>>>> master
 
-    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
+    // TESTING SORTING
+    // print_array(x, arrSize);
+    // quickSort(x, 0, arrSize);
+    // print_array(x, arrSize);
 
+<<<<<<< HEAD
    /* print_array(x, arrSize);
     quickSort(x, 0, arrSize);
     print_array(x, arrSize); */
+=======
+    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
+>>>>>>> master
 
     infile.close();
     return 0;
