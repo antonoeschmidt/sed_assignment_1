@@ -274,10 +274,6 @@ double skewness(double arr[], int size)
     {
         sum += pow(((arr[i] - aMean) / s), 3);
     }
-    // double res = (1 / size) * sum;
-    // cout << "Test: " << size << endl;
-    // float res = 1 / size;
-    // cout << "Res: " << res << endl;
     return sum / size;
 }
 
