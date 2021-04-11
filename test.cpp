@@ -270,6 +270,16 @@ double skewness(double arr[], int size)
     return sum / size;
 }
 
+double kurtosis(double arr[], int size){
+    double sum; 
+    double aMean = mean(arr, size);
+    double s = sd(arr, size);
+    for(int i = 0; i<size; i++){
+        sum += pow((arr[i] - aMean) / s, 4);
+    }
+    return sum / size - 3; 
+}
+
 double fquartile(double arr[], int size)
 {
     int n = size / 2;
@@ -293,6 +303,15 @@ double cov(double x[], double y[], int size)
 double corr(double x[], double y[], int size)
 {
     return cov(x, y, size) / (sd(x, size) * sd(y, size));
+}
+
+void linreg(double x[], double y[], int size){
+    double sdX = sd(x, size);
+    double sdY = sd(y, size);
+    double r = corr(x,y,size);
+    double a = r * sdY / sdX;
+    cout << "y = " << a << "x + " << mean(y, size) - a * mean(x, size) << endl;
+    return;
 }
 
 int main(int argc, char *argv[])
@@ -325,9 +344,11 @@ int main(int argc, char *argv[])
     cout << "var_x=" << var(x, arrSize) << " - " << "var_y=" << var(y, arrSize) << endl;
     cout << "stdev_x=" << sd(x, arrSize) << " - " << "stdev_y=" << sd(y, arrSize) << endl;
     cout << "mad_x=" << meanAbsoluteDeviation(x, arrSize) << " - " << "mad_y=" << meanAbsoluteDeviation(y, arrSize) << endl;
-    cout << "skew_x=" << skewness(x, arrSize) << " - " << "skew_y=" << skewness(y, arrSize) << endl;;
-    cout << "covariance: " << cov(x, y, size) << endl;
-    cout << "pearson correlation: " << corr(x, y, size) << endl;
+    cout << "skew_x=" << skewness(x, arrSize) << " - " << "skew_y=" << skewness(y, arrSize) << endl;
+    cout << "kurt_x=" << kurtosis(x, arrSize) << " - " << "kurt_y=" << kurtosis(y, arrSize) << endl;
+    cout << "cov(x_y) =" << cov(x, y, size) << endl;
+    cout << "r(x_y) =" << corr(x, y, size) << endl;
+    linreg(x,y,arrSize);
 
     // sort
     quickSort(x, 0, size);
