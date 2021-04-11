@@ -261,6 +261,12 @@ double skewness(double arr[], int size)
     return sum / size;
 }
 
+double fquartile(double arr[], int size)
+{
+    int n = size/2;
+    return median(arr, n);
+}
+
 // *** Inferential Statistics *** //
 // ------------------------------ //
 double cov(double x[], double y[], int size)
@@ -321,6 +327,7 @@ int main(int argc, char *argv[])
     quickSort(y, 0, size);
     cout << "median x: " << median(x, arrSize) << endl;
     cout << "median y: " << median(y, arrSize) << endl;
+    cout << "1st quartile x : " << fquartile(x, size) << endl;
     mode(x, size);
     mode(y, size);
 
