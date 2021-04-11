@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void groupinfo()
 {
     cout << "ASSIGNMENT 1 GROUP 30" << endl;
@@ -104,7 +103,7 @@ void fillarray(ifstream &infile, double *x, double *y, int size)
         infile >> buffer;
         try
         {
-        splitting(buffer, delimiter, &x[i], &y[i]);
+            splitting(buffer, delimiter, &x[i], &y[i]);
         }
         catch (const invalid_argument)
         {
@@ -125,7 +124,7 @@ int getlinenum(ifstream &infile)
         double y[sizeof(line)];
         try
         {
-        splitting(line, delimiter, x, y);
+            splitting(line, delimiter, x, y);
         }
         catch (const invalid_argument)
         {
@@ -165,18 +164,6 @@ double var(double arr[], int size)
     return sum(se, size) / (size - 1);
 }
 
-// double mode(double arr[], int size){
-//     double out = 0;
-//     for(int i=0; i<size; i++){
-//         int count = 0;
-//         for(int j = 0; j<size; j++) {
-//             if(arr[j] == arr[i]){
-
-//             }
-//         }
-//     }
-// }
-
 double meanAbsoluteDeviation(double arr[], int size)
 {
     double sum;
@@ -189,6 +176,83 @@ double meanAbsoluteDeviation(double arr[], int size)
 
     return sum / size;
 }
+
+class Statistics
+{
+private:
+    int n;
+    double *arrx = new double(n);
+    double *arry = new double(n);
+
+public:
+    ~Statistics() { ; }
+    Statistics(int size, double x[], double y[])
+    {
+        n = size;
+        arrx = x;
+        arry = y;
+    }
+
+    double getx(int n) { return arrx[n]; }
+    double gety(int n) { return arry[n]; }
+
+    double getMean(string col)
+    {
+        double aSum;
+        if (col == "x")
+        {
+            aSum = sum(arrx, n);
+        }
+        else if (col == "y")
+        {
+            aSum = sum(arry, n);
+        }
+        else
+            return 0;
+        return aSum / n;
+    }
+    double getVarX()
+    {
+        double aMean = mean(arrx, n);
+        double se[n]; // abb. for squared error, NOT standard error
+        for (int i = 0; i < n; i++)
+        {
+            se[i] = (arrx[i] - aMean) * (arrx[i] - aMean);
+        }
+        return sum(se, n) / (n - 1);
+    }
+    double getVarY()
+    {
+        double aMean = mean(arry, n);
+        double se[n]; // abb. for squared error, NOT standard error
+        for (int i = 0; i < n; i++)
+        {
+            se[i] = (arry[i] - aMean) * (arry[i] - aMean);
+        }
+        return sum(se, n) / (n - 1);
+    }
+
+    double meanAbsoluteDeviationX()
+    {
+        double sum;
+        double aMean = mean(arrx, n);
+        for (int i = 0; i < n; i++)
+        {
+            sum += fabs(arrx[i] - aMean);
+        }
+        return sum / n;
+    }
+    double meanAbsoluteDeviationY()
+    {
+        double sum;
+        double aMean = mean(arry, n);
+        for (int i = 0; i < n; i++)
+        {
+            sum += fabs(arry[i] - aMean);
+        }
+        return sum / n;
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -222,13 +286,20 @@ int main(int argc, char *argv[])
     cout << "mean: " << mean(x, arrSize) << endl;
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
 
+    Statistics stat(size, x, y);
+    cout << stat.getx(5) << endl;
+    cout << stat.gety(5) << endl;
+    cout << stat.getMean("x") << endl;
+    cout << stat.getVarX() << endl;
+    cout << stat.getVarY() << endl;
+
     // TESTING SORTING
     // print_array(x, arrSize);
     // quickSort(x, 0, arrSize);
     // print_array(x, arrSize);
 
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
-
+    groupinfo();
     infile.close();
     return 0;
 }
