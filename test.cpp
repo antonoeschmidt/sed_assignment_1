@@ -148,11 +148,10 @@ double sum(double arr[], int size)
     return sum;
 }
 
-//double mean(double arr[], int size)
-//{
-//    double aSum = sum(arr, size);
-//    return aSum / size;
-//}
+double mean(double arr[], int size)
+{    double aSum = sum(arr, size);
+    return aSum / size;
+}
 
 void median(double x[], double y[], int size) {
     double medianX = 0;
