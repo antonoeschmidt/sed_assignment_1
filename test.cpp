@@ -265,6 +265,16 @@ double skewness(double arr[], int size)
     return sum / size;
 }
 
+double kurtosis(double arr[], int size){
+    double sum; 
+    double aMean = mean(arr, size);
+    double s = sd(arr, size);
+    for(int i = 0; i<size; i++){
+        sum += pow((arr[i] - aMean) / s, 4);
+    }
+    return sum / size - 3; 
+}
+
 // *** Inferential Statistics *** //
 // ------------------------------ //
 double cov(double x[], double y[], int size)
@@ -281,6 +291,16 @@ double cov(double x[], double y[], int size)
 
 double corr(double x[], double y[], int size){
     return cov(x,y,size) / (sd(x,size) * sd(y,size));
+}
+
+void linreg(double x[], double y[], int size){
+    double sdX = sd(x, size);
+    double sdY = sd(y, size);
+    double r = corr(x,y,size);
+    double a = r * sdY / sdX;
+    cout << "Intercept: " << mean(y, size) - a * mean(x, size) << endl;
+    cout << "Slope: " << a << endl;
+    return;
 }
 
 int main(int argc, char *argv[])
@@ -318,6 +338,8 @@ int main(int argc, char *argv[])
     cout << "sd: " << sd(x, arrSize) << endl;
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
     cout << "Skewness: " << skewness(x, arrSize) << endl;
+    cout << "Kurtosis: " << kurtosis(x, size) << endl;
+    linreg(x,y,size);
 
     string buffer;
     char delimiter[] = ",";

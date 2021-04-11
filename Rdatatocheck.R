@@ -12,3 +12,7 @@ apply(d,2,sd)
 with(d, cov(x,y))
 with(d, cor(x,y))
 apply(d,2,skewness)
+apply(d,2,kurtosis)
+with(d, summary(lm(y~x)))
+apply(d,2,quantile, .25)
+
