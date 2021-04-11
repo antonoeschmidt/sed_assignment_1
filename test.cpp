@@ -27,11 +27,7 @@ void swap(double *a, double *b)
     *a = *b;
     *b = t;
 }
-/* This function takes last element as pivot, places
- * the pivot element at its correct position in sorted
- * array, and places all smaller (smaller than pivot)
- * to left of pivot and all greater elements to right
- * of pivot */
+
 int partition(double arr[], int low, int high)
 {
     double pivot = arr[high];
@@ -49,11 +45,6 @@ int partition(double arr[], int low, int high)
     return (i + 1);
 }
 
-/* The main function that implements QuickSort
- * arr[] --> Array to be sorted,
- * low --> Starting index,
- * high --> Ending index
- */
 void quickSort(double arr[], int low, int high)
 {
     if (low < high)
@@ -137,6 +128,8 @@ int getlinenum(ifstream &infile)
     return linenum;
 }
 
+// ***    Helper functions     *** //
+// ------------------------------ //
 double sum(double arr[], int size)
 {
     double sum = 0;
@@ -153,6 +146,8 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
+// *** Descriptive Statistics *** //
+// ------------------------------ //
 double var(double arr[], int size)
 {
     double arrM = mean(arr, size);
@@ -232,104 +227,12 @@ void mode(double arr[], int size)
             curCount = 1;
         }
     }
-    // cout << "Number of modes: " << n_modes << endl;
-    // cout << "Number of occurences: " << modeCount << endl;
     for (int i = 0; i < n_modes; i++)
     {
         cout << "mode " << i + 1 << " is " << modes[i] << endl;
     }
-    // cout << modes[0] << endl;
     return;
 }
-
-double cov(double x[], double y[], int size)
-{
-    double resprod = 0;
-    double meanX = mean(x, size);
-    double meanY = mean(y, size);
-    for (int i = 0; i < size; i++)
-    {
-        resprod += (x[i] - meanX) * (y[i] - meanY);
-    }
-    return resprod / (size - 1);
-}
-
-class Statistics
-{
-private:
-    int n;
-    double *arrx = new double(n);
-    double *arry = new double(n);
-
-public:
-    ~Statistics() { ; }
-    Statistics(int size, double x[], double y[])
-    {
-        n = size;
-        arrx = x;
-        arry = y;
-    }
-
-    double getx(int n) { return arrx[n]; }
-    double gety(int n) { return arry[n]; }
-
-    double getMean(string col)
-    {
-        double aSum;
-        if (col == "x")
-        {
-            aSum = sum(arrx, n);
-        }
-        else if (col == "y")
-        {
-            aSum = sum(arry, n);
-        }
-        else
-            return 0;
-        return aSum / n;
-    }
-    double getVarX()
-    {
-        double aMean = mean(arrx, n);
-        double se[n]; // abb. for squared error, NOT standard error
-        for (int i = 0; i < n; i++)
-        {
-            se[i] = (arrx[i] - aMean) * (arrx[i] - aMean);
-        }
-        return sum(se, n) / (n - 1);
-    }
-    double getVarY()
-    {
-        double aMean = mean(arry, n);
-        double se[n]; // abb. for squared error, NOT standard error
-        for (int i = 0; i < n; i++)
-        {
-            se[i] = (arry[i] - aMean) * (arry[i] - aMean);
-        }
-        return sum(se, n) / (n - 1);
-    }
-
-    double meanAbsoluteDeviationX()
-    {
-        double sum;
-        double aMean = mean(arrx, n);
-        for (int i = 0; i < n; i++)
-        {
-            sum += fabs(arrx[i] - aMean);
-        }
-        return sum / n;
-    }
-    double meanAbsoluteDeviationY()
-    {
-        double sum;
-        double aMean = mean(arry, n);
-        for (int i = 0; i < n; i++)
-        {
-            sum += fabs(arry[i] - aMean);
-        }
-        return sum / n;
-    }
-};
 
 double skewness(double arr[], int size)
 {
@@ -342,6 +245,19 @@ double skewness(double arr[], int size)
         sum += pow(((arr[i] - aMean) / s), 3);
     }
     return sum / size;
+}
+
+// *** Inferential Statistics *** //
+double cov(double x[], double y[], int size)
+{
+    double resprod = 0;
+    double meanX = mean(x, size);
+    double meanY = mean(y, size);
+    for (int i = 0; i < size; i++)
+    {
+        resprod += (x[i] - meanX) * (y[i] - meanY);
+    }
+    return resprod / (size - 1);
 }
 
 int main(int argc, char *argv[])
@@ -362,7 +278,7 @@ int main(int argc, char *argv[])
     }
 
     //Getting number of lines in file (to be used to create an array that fits the data)
-    int size = getlinenum(infile);
+    int const size = getlinenum(infile);
     //Putting data set into arrays
     double x[size];
     double y[size];
@@ -398,21 +314,6 @@ int main(int argc, char *argv[])
     quickSort(x, 0, size);
     quickSort(y, 0, size);
 
-    Statistics stat(size, x, y);
-    cout << stat.getx(5) << endl;
-    cout << stat.gety(5) << endl;
-    cout << stat.getMean("x") << endl;
-    cout << stat.getVarX() << endl;
-    cout << stat.getVarY() << endl;
-
-    // TESTING SORTING
-    // print_array(x, arrSize);
-    // quickSort(x, 0, arrSize);
-    // print_array(x, arrSize);
-    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
-    // double x_mode = mode(x, size);
-    // double y_mode = mode(y, size);
-    // cout << "x has mode: " << x_mode << "\ny has mode: " << y_mode << endl;
     mode(x, size);
     mode(y, size);
     infile.close();
