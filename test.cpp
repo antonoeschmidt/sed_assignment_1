@@ -154,12 +154,12 @@ double mean(double arr[], int size)
 }
 
 double var(double arr[], int size){
-    // array is array of residuals, NOT of actual observations
-    double se[size]; // abb. for squared error, NOT standard error
+    double arrM = mean(arr, size);
+    double VAR = 0; // abb. for squared error, NOT standard error
     for(int i=0; i<size; i++){
-        se[i] = arr[i] * arr[i];
+        VAR += (arr[i] - arrM) * (arr[i] - arrM);
     }
-    return sum(se, size) / (size - 1);
+    return VAR / (size - 1);
 }
 
 double sd(double arr[], int size)
@@ -176,6 +176,10 @@ double meanAbsoluteDeviation(double arr[], int size)
     {
         sum += fabs(arr[i] - aMean);
     }
+<<<<<<< HEAD
+=======
+    cout << sum / size << endl;
+>>>>>>> jeppe
 
     return sum / size;
 }
@@ -230,14 +234,17 @@ void mode(double arr[], int size){
     return; 
 }
 
-double cov(double resx[], double resy[], int size){
+double cov(double x[], double y[], int size){
     double resprod = 0;
+    double meanX = mean(x, size);
+    double meanY = mean(y, size);
     for(int i=0; i<size; i++){
-        resprod += resx[i] * resy[i]; 
+        resprod += (x[i] - meanX) * (y[i] - meanY); 
     }
     return resprod / (size - 1);
 }
 
+<<<<<<< HEAD
 
 class Statistics
 {
@@ -316,6 +323,8 @@ public:
     }
 };
 
+=======
+>>>>>>> jeppe
 int main(int argc, char *argv[])
 {
     // Checks if the program is executed in the correct format
@@ -346,17 +355,14 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
+<<<<<<< HEAD
     cout << "var: " << var(x, arrSize) << endl;
     cout << "sd: " << sd(x, arrSize) << endl;
+=======
+>>>>>>> jeppe
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
     string buffer;
     char delimiter[] = ",";
-    for (int i = 0; i < size; i++)
-    {
-        infile >> buffer;
-        splitting(buffer, delimiter, &x[i], &y[i]);
-        // cout << y[i] << endl;
-    }
 
     // double a[] = {5, 10, 15};
     // int arrSize = sizeof(a) / sizeof(a[0]);
@@ -366,13 +372,20 @@ int main(int argc, char *argv[])
     double xMean = mean(x, size);
     double yMean = mean(y, size);
     double xResiduals[size], yResiduals[size];
-    for(int i=0; i<size; i++){
-        xResiduals[i] = x[i] - xMean;
-        yResiduals[i] = y[i] - yMean;
-    }
+    double covariance = cov(x, y, size);
+    double varX = var(x, size);
+    double varY = var(y, size);
+    double sdX = sqrt(varX);
+    double sdY = sqrt(varY);
+    double corr = covariance / (sdX * sdY);
+    cout << "covariance: " << covariance << endl; 
+    cout << "sd(X): " << sdX << endl;
+    cout << "sd(Y): " << sdY << endl;
+    cout << "pearson correlation: " << corr << endl;
     quickSort(x, 0, size);
     quickSort(y, 0, size);
 
+<<<<<<< HEAD
     Statistics stat(size, x, y);
     cout << stat.getx(5) << endl;
     cout << stat.gety(5) << endl;
@@ -380,11 +393,16 @@ int main(int argc, char *argv[])
     cout << stat.getVarX() << endl;
     cout << stat.getVarY() << endl;
 
+=======
+>>>>>>> jeppe
     // TESTING SORTING
     // print_array(x, arrSize);
     // quickSort(x, 0, arrSize);
     // print_array(x, arrSize);
+<<<<<<< HEAD
 
+=======
+>>>>>>> jeppe
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
     // double x_mode = mode(x, size);
     // double y_mode = mode(y, size);
