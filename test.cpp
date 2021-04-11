@@ -147,24 +147,20 @@ double mean(double arr[], int size)
 
 // *** Descriptive Statistics *** //
 // ------------------------------ //
-void median(double x[], double y[], int size) {
-    double medianX = 0;
-    double medianY = 0;
+double median(double arr[], int size) {
+    double median = 0;
 
     for (int i = 0; i < size - 1; i++) {
         if ((size - 1) % 2 != 0) { 
-            medianX = x[(size - 1) / 2]; 
-            medianY = y[(size - 1) / 2];
+            median = arr[(size - 1) / 2]; 
         }
         else { 
-            medianX = x[(size - 1) / 2]; 
-            medianX = (medianX + x[size / 2 - 1]) / 2; 
-
-            medianY = y[(size - 1) / 2];
-            medianY = (medianY + y[size / 2 - 1]) / 2;
+            median = arr[(size - 1) / 2]; 
+            median = (median + arr[size / 2 - 1]) / 2; 
         }
     }
-    cout << "median_x = " << medianX << " - median_y = " << medianY << endl;   
+    // cout << "median= " << median << endl; 
+    return median;  
 };
 double var(double arr[], int size)
 {
@@ -312,35 +308,21 @@ int main(int argc, char *argv[])
     // TESTING OUTPUT
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
-    median(x, y, arrSize);
     cout << "mean: " << mean(x, arrSize) << endl;
     cout << "var: " << var(x, arrSize) << endl;
     cout << "sd: " << sd(x, arrSize) << endl;
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
     cout << "Skewness: " << skewness(x, arrSize) << endl;
+    cout << "covariance: " << cov(x, y, size) << endl;
+    cout << "pearson correlation: " << corr(x,y,size) << endl;
 
-    string buffer;
-    char delimiter[] = ",";
-    double xMean = mean(x, size);
-    double yMean = mean(y, size);
-    double covariance = cov(x, y, size);
-    double varX = var(x, size);
-    double varY = var(y, size);
-    double sdX = sd(x, size);
-    double sdY = sd(y, size);
-    double correlation = corr(x,y,size);
-    cout << "covariance: " << covariance << endl;
-    cout << "sd(X): " << sdX << endl;
-    cout << "sd(Y): " << sdY << endl;
-    cout << "pearson correlation: " << correlation << endl;
+    // sort
     quickSort(x, 0, size);
     quickSort(y, 0, size);
-
+    cout << "median x: " << median(x, arrSize) << endl;
+    cout << "median y: " << median(y, arrSize) << endl;
     mode(x, size);
     mode(y, size);
-
-   
-
 
     infile.close();
     return 0;
