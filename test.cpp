@@ -167,17 +167,6 @@ double sd(double arr[], int size)
     return sqrt(var(arr, size));
 }
 
-// double mode(double arr[], int size){
-//     double out = 0;
-//     for(int i=0; i<size; i++){
-//         int count = 0;
-//         for(int j = 0; j<size; j++) {
-//             if(arr[j] == arr[i]){
-
-//             }
-//         }
-//     }
-// }
 
 double meanAbsoluteDeviation(double arr[], int size)
 {
@@ -250,6 +239,82 @@ double cov(double resx[], double resy[], int size){
 }
 
 
+class Statistics
+{
+private:
+    int n;
+    double *arrx = new double(n);
+    double *arry = new double(n);
+
+public:
+    ~Statistics() { ; }
+    Statistics(int size, double x[], double y[])
+    {
+        n = size;
+        arrx = x;
+        arry = y;
+    }
+
+    double getx(int n) { return arrx[n]; }
+    double gety(int n) { return arry[n]; }
+
+    double getMean(string col)
+    {
+        double aSum;
+        if (col == "x")
+        {
+            aSum = sum(arrx, n);
+        }
+        else if (col == "y")
+        {
+            aSum = sum(arry, n);
+        }
+        else
+            return 0;
+        return aSum / n;
+    }
+    double getVarX()
+    {
+        double aMean = mean(arrx, n);
+        double se[n]; // abb. for squared error, NOT standard error
+        for (int i = 0; i < n; i++)
+        {
+            se[i] = (arrx[i] - aMean) * (arrx[i] - aMean);
+        }
+        return sum(se, n) / (n - 1);
+    }
+    double getVarY()
+    {
+        double aMean = mean(arry, n);
+        double se[n]; // abb. for squared error, NOT standard error
+        for (int i = 0; i < n; i++)
+        {
+            se[i] = (arry[i] - aMean) * (arry[i] - aMean);
+        }
+        return sum(se, n) / (n - 1);
+    }
+
+    double meanAbsoluteDeviationX()
+    {
+        double sum;
+        double aMean = mean(arrx, n);
+        for (int i = 0; i < n; i++)
+        {
+            sum += fabs(arrx[i] - aMean);
+        }
+        return sum / n;
+    }
+    double meanAbsoluteDeviationY()
+    {
+        double sum;
+        double aMean = mean(arry, n);
+        for (int i = 0; i < n; i++)
+        {
+            sum += fabs(arry[i] - aMean);
+        }
+        return sum / n;
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -307,6 +372,13 @@ int main(int argc, char *argv[])
     }
     quickSort(x, 0, size);
     quickSort(y, 0, size);
+
+    Statistics stat(size, x, y);
+    cout << stat.getx(5) << endl;
+    cout << stat.gety(5) << endl;
+    cout << stat.getMean("x") << endl;
+    cout << stat.getVarX() << endl;
+    cout << stat.getVarY() << endl;
 
     // TESTING SORTING
     // print_array(x, arrSize);
