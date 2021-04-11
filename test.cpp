@@ -105,25 +105,73 @@ double mean(double arr[], int size)
 }
 
 double var(double arr[], int size){
-    double aMean = mean(arr, size);
+    // array is array of residuals, NOT of actual observations
     double se[size]; // abb. for squared error, NOT standard error
     for(int i=0; i<size; i++){
-        se[i] = (arr[i] - aMean) * (arr[i] - aMean);
+        se[i] = arr[i] * arr[i];
     }
     return sum(se) / (size - 1);
 }
 
-double mode(double arr[], int size){
-    double out = 0;
+void mode(double arr[], int size){
+    // arr[] is assumed to be sorted already    
+    double mode = 0;
+    int modeCount = 0;
+    int curVal = 0;
+    int curCount = 0;
+    int n_modes = 1; 
     for(int i=0; i<size; i++){
-        int count = 0;
-        for(int j = 0; j<size, j++){
-            if(arr[j] == arr[i]){
-                
+        if(arr[i] == curVal){
+            curCount++;
+        }
+        else{
+            if(curCount > modeCount){   
+                mode = curVal;
+                modeCount = curCount;
+                n_modes = 1;
             }
+            else if(curCount == modeCount){
+                n_modes++;
+            }
+            curVal = arr[i];
+            curCount = 1;
         }
     }
+    double modes[n_modes];
+    int modecounter = 0;
+    curVal = 0;
+    curCount = 0;
+    for(int i=0; i<size; i++){
+        if(arr[i] == curVal){
+            curCount++;
+        }
+        else{
+            if(curCount == modeCount){
+                modes[modecounter] = curVal;
+                modecounter++;
+            }
+            curVal = arr[i];
+            curCount = 1;
+        }
+    } 
+    // cout << "Number of modes: " << n_modes << endl;
+    // cout << "Number of occurences: " << modeCount << endl;
+    for(int i=0; i<n_modes; i++){
+        cout << "mode " << i+1 << " is " << modes[i] << endl;
+    }
+    // cout << modes[0] << endl;
+    return; 
 }
+
+double cov(double resx[], double resy[], int size){
+    double resprod = 0;
+    for(int i=0; i<size; i++){
+        resprod += resx[i] * resy[i]; 
+    }
+    return resprod / (size - 1);
+}
+
+
 
 int main(int argc, char *argv[])
 {
@@ -154,22 +202,32 @@ int main(int argc, char *argv[])
     {
         infile >> buffer;
         splitting(buffer, delimiter, &x[i], &y[i]);
-        cout << x[i] << endl;
+        // cout << y[i] << endl;
     }
 
-    double a[] = {5, 10, 15};
-
-    int arrSize = sizeof(a) / sizeof(a[0]);
-    cout << "size: " << arrSize << endl;
-    cout << "sum: " << sum(a) << endl;
-    cout << "mean: " << mean(a, arrSize) << endl;
+    // double a[] = {5, 10, 15};
+    // int arrSize = sizeof(a) / sizeof(a[0]);
+    // cout << "size: " << arrSize << endl;
+    // cout << "sum: " << sum(a) << endl;
+    // cout << "mean: " << mean(a, arrSize) << endl;
+    double xMean = mean(x, size);
+    double yMean = mean(y, size);
+    double xResiduals[size], yResiduals[size];
+    for(int i=0; i<size; i++){
+        xResiduals[i] = x[i] - xMean;
+        yResiduals[i] = y[i] - yMean;
+    }
     quickSort(x, 0, size);
     quickSort(y, 0, size);
 
     int medianpos = ceil(size/2);
 
     cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
-
+    // double x_mode = mode(x, size);
+    // double y_mode = mode(y, size);
+    // cout << "x has mode: " << x_mode << "\ny has mode: " << y_mode << endl; 
+    mode(x, size);
+    mode(y, size);
     infile.close();
     return 0;
 }
