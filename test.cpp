@@ -176,10 +176,6 @@ double meanAbsoluteDeviation(double arr[], int size)
     {
         sum += fabs(arr[i] - aMean);
     }
-<<<<<<< HEAD
-=======
-    cout << sum / size << endl;
->>>>>>> jeppe
 
     return sum / size;
 }
@@ -244,7 +240,6 @@ double cov(double x[], double y[], int size){
     return resprod / (size - 1);
 }
 
-<<<<<<< HEAD
 
 class Statistics
 {
@@ -323,8 +318,6 @@ public:
     }
 };
 
-=======
->>>>>>> jeppe
 int main(int argc, char *argv[])
 {
     // Checks if the program is executed in the correct format
@@ -355,11 +348,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
-<<<<<<< HEAD
     cout << "var: " << var(x, arrSize) << endl;
     cout << "sd: " << sd(x, arrSize) << endl;
-=======
->>>>>>> jeppe
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
     string buffer;
     char delimiter[] = ",";
@@ -385,7 +375,6 @@ int main(int argc, char *argv[])
     quickSort(x, 0, size);
     quickSort(y, 0, size);
 
-<<<<<<< HEAD
     Statistics stat(size, x, y);
     cout << stat.getx(5) << endl;
     cout << stat.gety(5) << endl;
@@ -393,16 +382,10 @@ int main(int argc, char *argv[])
     cout << stat.getVarX() << endl;
     cout << stat.getVarY() << endl;
 
-=======
->>>>>>> jeppe
     // TESTING SORTING
     // print_array(x, arrSize);
     // quickSort(x, 0, arrSize);
     // print_array(x, arrSize);
-<<<<<<< HEAD
-
-=======
->>>>>>> jeppe
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
     // double x_mode = mode(x, size);
     // double y_mode = mode(y, size);
