@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void groupinfo()
 {
     cout << "ASSIGNMENT 1 GROUP 30" << endl;
@@ -95,7 +94,6 @@ void splitting(string buffer, string delimiter, double *x, double *y)
 
     *y = stof(buffer.substr(startpos, endpos - startpos));
 }
-
 void fillarray(ifstream &infile, double *x, double *y, int size)
 {
     char delimiter[] = ",";
@@ -105,7 +103,7 @@ void fillarray(ifstream &infile, double *x, double *y, int size)
         infile >> buffer;
         try
         {
-        splitting(buffer, delimiter, &x[i], &y[i]);
+            splitting(buffer, delimiter, &x[i], &y[i]);
         }
         catch (const invalid_argument)
         {
@@ -126,7 +124,7 @@ int getlinenum(ifstream &infile)
         double y[sizeof(line)];
         try
         {
-        splitting(line, delimiter, x, y);
+            splitting(line, delimiter, x, y);
         }
         catch (const invalid_argument)
         {
@@ -164,6 +162,12 @@ double var(double arr[], int size){
     return VAR / (size - 1);
 }
 
+double sd(double arr[], int size)
+{
+    return sqrt(var(arr, size));
+}
+
+
 double meanAbsoluteDeviation(double arr[], int size)
 {
     double sum;
@@ -172,7 +176,6 @@ double meanAbsoluteDeviation(double arr[], int size)
     {
         sum += fabs(arr[i] - aMean);
     }
-    cout << sum / size << endl;
 
     return sum / size;
 }
@@ -237,6 +240,84 @@ double cov(double x[], double y[], int size){
     return resprod / (size - 1);
 }
 
+
+class Statistics
+{
+private:
+    int n;
+    double *arrx = new double(n);
+    double *arry = new double(n);
+
+public:
+    ~Statistics() { ; }
+    Statistics(int size, double x[], double y[])
+    {
+        n = size;
+        arrx = x;
+        arry = y;
+    }
+
+    double getx(int n) { return arrx[n]; }
+    double gety(int n) { return arry[n]; }
+
+    double getMean(string col)
+    {
+        double aSum;
+        if (col == "x")
+        {
+            aSum = sum(arrx, n);
+        }
+        else if (col == "y")
+        {
+            aSum = sum(arry, n);
+        }
+        else
+            return 0;
+        return aSum / n;
+    }
+    double getVarX()
+    {
+        double aMean = mean(arrx, n);
+        double se[n]; // abb. for squared error, NOT standard error
+        for (int i = 0; i < n; i++)
+        {
+            se[i] = (arrx[i] - aMean) * (arrx[i] - aMean);
+        }
+        return sum(se, n) / (n - 1);
+    }
+    double getVarY()
+    {
+        double aMean = mean(arry, n);
+        double se[n]; // abb. for squared error, NOT standard error
+        for (int i = 0; i < n; i++)
+        {
+            se[i] = (arry[i] - aMean) * (arry[i] - aMean);
+        }
+        return sum(se, n) / (n - 1);
+    }
+
+    double meanAbsoluteDeviationX()
+    {
+        double sum;
+        double aMean = mean(arrx, n);
+        for (int i = 0; i < n; i++)
+        {
+            sum += fabs(arrx[i] - aMean);
+        }
+        return sum / n;
+    }
+    double meanAbsoluteDeviationY()
+    {
+        double sum;
+        double aMean = mean(arry, n);
+        for (int i = 0; i < n; i++)
+        {
+            sum += fabs(arry[i] - aMean);
+        }
+        return sum / n;
+    }
+};
+
 int main(int argc, char *argv[])
 {
     // Checks if the program is executed in the correct format
@@ -267,6 +348,8 @@ int main(int argc, char *argv[])
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
     cout << "mean: " << mean(x, arrSize) << endl;
+    cout << "var: " << var(x, arrSize) << endl;
+    cout << "sd: " << sd(x, arrSize) << endl;
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
     string buffer;
     char delimiter[] = ",";
@@ -291,6 +374,13 @@ int main(int argc, char *argv[])
     cout << "pearson correlation: " << corr << endl;
     quickSort(x, 0, size);
     quickSort(y, 0, size);
+
+    Statistics stat(size, x, y);
+    cout << stat.getx(5) << endl;
+    cout << stat.gety(5) << endl;
+    cout << stat.getMean("x") << endl;
+    cout << stat.getVarX() << endl;
+    cout << stat.getVarY() << endl;
 
     // TESTING SORTING
     // print_array(x, arrSize);
