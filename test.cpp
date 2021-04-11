@@ -152,7 +152,6 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
-<<<<<<< HEAD
 void median(double x[], double y[], int size) {
     double medianX = 0;
     double medianY = 0;
@@ -172,14 +171,8 @@ void median(double x[], double y[], int size) {
     }
     cout << "median_x = " << medianX << " - median_y = " << medianY << endl; 
     
-}
+};
 
-double var(double arr[], int size){
-    // array is array of residuals, NOT of actual observations
-    double se[size]; // abb. for squared error, NOT standard error
-    for(int i=0; i<size; i++){
-        se[i] = arr[i] * arr[i];
-=======
 double var(double arr[], int size)
 {
     double arrM = mean(arr, size);
@@ -187,7 +180,6 @@ double var(double arr[], int size)
     for (int i = 0; i < size; i++)
     {
         VAR += (arr[i] - arrM) * (arr[i] - arrM);
->>>>>>> master
     }
     return VAR / (size - 1);
 }
@@ -410,11 +402,7 @@ int main(int argc, char *argv[])
 
     string buffer;
     char delimiter[] = ",";
-<<<<<<< HEAD
    
-=======
-
->>>>>>> master
     double xMean = mean(x, size);
     double yMean = mean(y, size);
     double xResiduals[size], yResiduals[size];
@@ -438,19 +426,6 @@ int main(int argc, char *argv[])
     cout << stat.getVarX() << endl;
     cout << stat.getVarY() << endl;
 
-    // TESTING SORTING
-    // print_array(x, arrSize);
-    // quickSort(x, 0, arrSize);
-    // print_array(x, arrSize);
-<<<<<<< HEAD
-
-    //cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;//
-=======
-    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
->>>>>>> master
-    // double x_mode = mode(x, size);
-    // double y_mode = mode(y, size);
-    // cout << "x has mode: " << x_mode << "\ny has mode: " << y_mode << endl;
     mode(x, size);
     mode(y, size);
 
