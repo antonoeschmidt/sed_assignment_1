@@ -351,13 +351,7 @@ int main(int argc, char *argv[])
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
     string buffer;
     char delimiter[] = ",";
-    for (int i = 0; i < size; i++)
-    {
-        infile >> buffer;
-        splitting(buffer, delimiter, &x[i], &y[i]);
-        // cout << y[i] << endl;
-    }
-
+   
     // double a[] = {5, 10, 15};
     // int arrSize = sizeof(a) / sizeof(a[0]);
     // cout << "size: " << arrSize << endl;
