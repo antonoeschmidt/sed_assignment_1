@@ -154,7 +154,7 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
-<<<<<<< HEAD
+
 void median(double x[], double y[], int size) {
     double medianX = 0;
     double medianY = 0;
@@ -177,7 +177,7 @@ void median(double x[], double y[], int size) {
 }
 
 double var(double arr[], int size){
-=======
+
 double var(double arr[], int size)
 {
 >>>>>>> master
