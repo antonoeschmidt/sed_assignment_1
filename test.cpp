@@ -153,10 +153,12 @@ double mean(double arr[], int size)
     return aSum / size;
 }
 
-double var(double arr[], int size){
+double var(double arr[], int size)
+{
     double arrM = mean(arr, size);
     double VAR = 0; // abb. for squared error, NOT standard error
-    for(int i=0; i<size; i++){
+    for (int i = 0; i < size; i++)
+    {
         VAR += (arr[i] - arrM) * (arr[i] - arrM);
     }
     return VAR / (size - 1);
@@ -166,7 +168,6 @@ double sd(double arr[], int size)
 {
     return sqrt(var(arr, size));
 }
-
 
 double meanAbsoluteDeviation(double arr[], int size)
 {
@@ -180,24 +181,30 @@ double meanAbsoluteDeviation(double arr[], int size)
     return sum / size;
 }
 
-void mode(double arr[], int size){
-    // arr[] is assumed to be sorted already    
+void mode(double arr[], int size)
+{
+    // arr[] is assumed to be sorted already
     double mode = 0;
     int modeCount = 0;
     int curVal = 0;
     int curCount = 0;
-    int n_modes = 1; 
-    for(int i=0; i<size; i++){
-        if(arr[i] == curVal){
+    int n_modes = 1;
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == curVal)
+        {
             curCount++;
         }
-        else{
-            if(curCount > modeCount){   
+        else
+        {
+            if (curCount > modeCount)
+            {
                 mode = curVal;
                 modeCount = curCount;
                 n_modes = 1;
             }
-            else if(curCount == modeCount){
+            else if (curCount == modeCount)
+            {
                 n_modes++;
             }
             curVal = arr[i];
@@ -208,38 +215,44 @@ void mode(double arr[], int size){
     int modecounter = 0;
     curVal = 0;
     curCount = 0;
-    for(int i=0; i<size; i++){
-        if(arr[i] == curVal){
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == curVal)
+        {
             curCount++;
         }
-        else{
-            if(curCount == modeCount){
+        else
+        {
+            if (curCount == modeCount)
+            {
                 modes[modecounter] = curVal;
                 modecounter++;
             }
             curVal = arr[i];
             curCount = 1;
         }
-    } 
+    }
     // cout << "Number of modes: " << n_modes << endl;
     // cout << "Number of occurences: " << modeCount << endl;
-    for(int i=0; i<n_modes; i++){
-        cout << "mode " << i+1 << " is " << modes[i] << endl;
+    for (int i = 0; i < n_modes; i++)
+    {
+        cout << "mode " << i + 1 << " is " << modes[i] << endl;
     }
     // cout << modes[0] << endl;
-    return; 
+    return;
 }
 
-double cov(double x[], double y[], int size){
+double cov(double x[], double y[], int size)
+{
     double resprod = 0;
     double meanX = mean(x, size);
     double meanY = mean(y, size);
-    for(int i=0; i<size; i++){
-        resprod += (x[i] - meanX) * (y[i] - meanY); 
+    for (int i = 0; i < size; i++)
+    {
+        resprod += (x[i] - meanX) * (y[i] - meanY);
     }
     return resprod / (size - 1);
 }
-
 
 class Statistics
 {
@@ -318,6 +331,19 @@ public:
     }
 };
 
+double skewness(double arr[], int size)
+{
+    double sum;
+    double aMean = mean(arr, size);
+    double s = sd(arr, size);
+
+    for (int i = 0; i < size; i++)
+    {
+        sum += pow(((arr[i] - aMean) / s), 3);
+    }
+    return sum / size;
+}
+
 int main(int argc, char *argv[])
 {
     // Checks if the program is executed in the correct format
@@ -351,9 +377,11 @@ int main(int argc, char *argv[])
     cout << "var: " << var(x, arrSize) << endl;
     cout << "sd: " << sd(x, arrSize) << endl;
     cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
+    cout << "Skewness: " << skewness(x, arrSize) << endl;
+
     string buffer;
     char delimiter[] = ",";
-   
+
     double xMean = mean(x, size);
     double yMean = mean(y, size);
     double xResiduals[size], yResiduals[size];
@@ -363,7 +391,7 @@ int main(int argc, char *argv[])
     double sdX = sqrt(varX);
     double sdY = sqrt(varY);
     double corr = covariance / (sdX * sdY);
-    cout << "covariance: " << covariance << endl; 
+    cout << "covariance: " << covariance << endl;
     cout << "sd(X): " << sdX << endl;
     cout << "sd(Y): " << sdY << endl;
     cout << "pearson correlation: " << corr << endl;
@@ -384,7 +412,7 @@ int main(int argc, char *argv[])
     // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
     // double x_mode = mode(x, size);
     // double y_mode = mode(y, size);
-    // cout << "x has mode: " << x_mode << "\ny has mode: " << y_mode << endl; 
+    // cout << "x has mode: " << x_mode << "\ny has mode: " << y_mode << endl;
     mode(x, size);
     mode(y, size);
     infile.close();
