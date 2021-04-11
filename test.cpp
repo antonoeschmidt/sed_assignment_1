@@ -296,7 +296,7 @@ int main(int argc, char *argv[])
     // quickSort(x, 0, arrSize);
     // print_array(x, arrSize);
 
-    cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
+    // cout << "Median of x is " << x[medianpos] << endl << "Median of y is " << y[medianpos] << endl;
     // double x_mode = mode(x, size);
     // double y_mode = mode(y, size);
     // cout << "x has mode: " << x_mode << "\ny has mode: " << y_mode << endl; 
