@@ -148,7 +148,6 @@ double meanAbsoluteDeviation(double arr[], int size)
     {
         sum += fabs(arr[i] - aMean);
     }
-    cout << sum / size << endl;
 
     return sum / size;
 }
