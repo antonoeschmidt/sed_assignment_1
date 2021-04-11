@@ -141,13 +141,31 @@ double sum(double arr[], int size)
 }
 
 double mean(double arr[], int size)
-{
-    double aSum = sum(arr, size);
+{    double aSum = sum(arr, size);
     return aSum / size;
 }
 
 // *** Descriptive Statistics *** //
 // ------------------------------ //
+void median(double x[], double y[], int size) {
+    double medianX = 0;
+    double medianY = 0;
+
+    for (int i = 0; i < size - 1; i++) {
+        if ((size - 1) % 2 != 0) { 
+            medianX = x[(size - 1) / 2]; 
+            medianY = y[(size - 1) / 2];
+        }
+        else { 
+            medianX = x[(size - 1) / 2]; 
+            medianX = (medianX + x[size / 2 - 1]) / 2; 
+
+            medianY = y[(size - 1) / 2];
+            medianY = (medianY + y[size / 2 - 1]) / 2;
+        }
+    }
+    cout << "median_x = " << medianX << " - median_y = " << medianY << endl;   
+};
 double var(double arr[], int size)
 {
     double arrM = mean(arr, size);
@@ -248,6 +266,7 @@ double skewness(double arr[], int size)
 }
 
 // *** Inferential Statistics *** //
+// ------------------------------ //
 double cov(double x[], double y[], int size)
 {
     double resprod = 0;
@@ -293,6 +312,7 @@ int main(int argc, char *argv[])
     // TESTING OUTPUT
     cout << "size: " << arrSize << endl;
     cout << "sum: " << sum(x, arrSize) << endl;
+    median(x, y, arrSize);
     cout << "mean: " << mean(x, arrSize) << endl;
     cout << "var: " << var(x, arrSize) << endl;
     cout << "sd: " << sd(x, arrSize) << endl;
@@ -301,7 +321,6 @@ int main(int argc, char *argv[])
 
     string buffer;
     char delimiter[] = ",";
-
     double xMean = mean(x, size);
     double yMean = mean(y, size);
     double covariance = cov(x, y, size);
@@ -319,6 +338,14 @@ int main(int argc, char *argv[])
 
     mode(x, size);
     mode(y, size);
+
+   
+
+
     infile.close();
     return 0;
 }
+
+
+
+
