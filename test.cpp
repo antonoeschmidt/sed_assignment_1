@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void groupinfo()
 {
     cout << "ASSIGNMENT 1 GROUP 30" << endl;
@@ -104,7 +103,7 @@ void fillarray(ifstream &infile, double *x, double *y, int size)
         infile >> buffer;
         try
         {
-        splitting(buffer, delimiter, &x[i], &y[i]);
+            splitting(buffer, delimiter, &x[i], &y[i]);
         }
         catch (const invalid_argument)
         {
@@ -125,7 +124,7 @@ int getlinenum(ifstream &infile)
         double y[sizeof(line)];
         try
         {
-        splitting(line, delimiter, x, y);
+            splitting(line, delimiter, x, y);
         }
         catch (const invalid_argument)
         {
@@ -165,7 +164,8 @@ double var(double arr[], int size)
     return sum(se, size) / (size - 1);
 }
 
-double sd(double arr[], int size) {
+double sd(double arr[], int size)
+{
     return sqrt(var(arr, size));
 }
 
