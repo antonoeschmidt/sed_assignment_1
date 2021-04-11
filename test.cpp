@@ -341,13 +341,42 @@ int main(int argc, char *argv[])
     int arrSize = sizeof(x) / sizeof(y[0]);
 
     //OUTPUT
-    cout << "var_x=" << var(x, arrSize) << " - " << "var_y=" << var(y, arrSize) << endl;
-    cout << "stdev_x=" << sd(x, arrSize) << " - " << "stdev_y=" << sd(y, arrSize) << endl;
-    cout << "mad_x=" << meanAbsoluteDeviation(x, arrSize) << " - " << "mad_y=" << meanAbsoluteDeviation(y, arrSize) << endl;
-    cout << "skew_x=" << skewness(x, arrSize) << " - " << "skew_y=" << skewness(y, arrSize) << endl;
-    cout << "kurt_x=" << kurtosis(x, arrSize) << " - " << "kurt_y=" << kurtosis(y, arrSize) << endl;
-    cout << "cov(x_y) =" << cov(x, y, size) << endl;
-    cout << "r(x_y) =" << corr(x, y, size) << endl;
+    cout << "var_x=";
+    formatoutput(var(x, arrSize));
+    cout << " - " << "var_y=";
+    formatoutput(var(y, arrSize));
+    cout << endl;
+
+    cout << "stdev_x=";
+    formatoutput(sd(x, arrSize));
+    cout << " - " << "stdev_y=";
+    formatoutput(sd(y, arrSize));
+    cout << endl;
+
+    cout << "mad_x=";
+    formatoutput(meanAbsoluteDeviation(x, arrSize));
+    cout << " - " << "mad_y=";
+    formatoutput(meanAbsoluteDeviation(y, arrSize));
+    cout << endl;
+
+    cout << "skew_x=";
+    formatoutput(skewness(x, arrSize));
+    cout << " - " << "skew_y=";
+    formatoutput(skewness(y, arrSize));
+    cout << endl;
+
+    cout << "kurt_x=";
+    formatoutput(kurtosis(x, arrSize));
+    cout << " - " << "kurt_y=";
+    formatoutput(kurtosis(y, arrSize));
+    cout << endl;
+
+    cout << "cov(x_y) =";
+    formatoutput(cov(x, y, size));
+    cout << endl;
+    cout << "r(x_y) =";
+    formatoutput(corr(x, y, size));
+    cout << endl;
     linreg(x,y,arrSize);
 
     // sort
