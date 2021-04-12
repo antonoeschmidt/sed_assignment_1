@@ -141,26 +141,31 @@ double sum(double arr[], int size)
 }
 
 double mean(double arr[], int size)
-{    double aSum = sum(arr, size);
+{
+    double aSum = sum(arr, size);
     return aSum / size;
 }
 
 // *** Descriptive Statistics *** //
 // ------------------------------ //
-double median(double arr[], int size) {
+double median(double arr[], int size)
+{
     double median = 0;
 
-    for (int i = 0; i < size - 1; i++) {
-        if ((size - 1) % 2 != 0) { 
-            median = arr[(size - 1) / 2]; 
+    for (int i = 0; i < size - 1; i++)
+    {
+        if ((size - 1) % 2 != 0)
+        {
+            median = arr[(size - 1) / 2];
         }
-        else { 
-            median = arr[(size - 1) / 2]; 
-            median = (median + arr[size / 2 - 1]) / 2; 
+        else
+        {
+            median = arr[(size - 1) / 2];
+            median = (median + arr[size / 2 - 1]) / 2;
         }
     }
-    // cout << "median= " << median << endl; 
-    return median;  
+    // cout << "median= " << median << endl;
+    return median;
 };
 double var(double arr[], int size)
 {
@@ -245,7 +250,11 @@ void mode(double arr[], int size)
     }
     for (int i = 0; i < n_modes; i++) // cout modes
     {
-        cout << "mode " << i + 1 << " is " << modes[i] << endl;
+        if(i != 0 )
+        {
+            cout << ",";
+        }
+        cout << modes[i];
     }
     return;
 }
@@ -275,7 +284,7 @@ double kurtosis(double arr[], int size){
 
 double fquartile(double arr[], int size)
 {
-    int n = size/2;
+    int n = size / 2;
     return median(arr, n);
 }
 
@@ -293,8 +302,9 @@ double cov(double x[], double y[], int size)
     return resprod / (size - 1);
 }
 
-double corr(double x[], double y[], int size){
-    return cov(x,y,size) / (sd(x,size) * sd(y,size));
+double corr(double x[], double y[], int size)
+{
+    return cov(x, y, size) / (sd(x, size) * sd(y, size));
 }
 
 void linreg(double x[], double y[], int size){
@@ -302,8 +312,7 @@ void linreg(double x[], double y[], int size){
     double sdY = sd(y, size);
     double r = corr(x,y,size);
     double a = r * sdY / sdX;
-    cout << "Linear regression intercept: " << mean(y, size) - a * mean(x, size) << endl;
-    cout << "Linear regression slope: " << a << endl;
+    cout << "y = " << a << "x + " << mean(y, size) - a * mean(x, size) << endl;
     return;
 }
 
@@ -333,32 +342,74 @@ int main(int argc, char *argv[])
 
     int arrSize = sizeof(x) / sizeof(y[0]);
 
-    // TESTING OUTPUT
-    cout << "size: " << arrSize << endl;
-    cout << "sum: " << sum(x, arrSize) << endl;
-    cout << "mean: " << mean(x, arrSize) << endl;
-    cout << "var: " << var(x, arrSize) << endl;
-    cout << "sd: " << sd(x, arrSize) << endl;
-    cout << "MAD: " << meanAbsoluteDeviation(x, arrSize) << endl;
-    cout << "Skewness: " << skewness(x, arrSize) << endl;
-    cout << "Kurtosis: " << kurtosis(x, size) << endl;
-    linreg(x,y,size);
-    cout << "covariance: " << cov(x, y, size) << endl;
-    cout << "pearson correlation: " << corr(x,y,size) << endl;
+    //OUTPUT
+    cout << "var_x=";
+    formatoutput(var(x, arrSize));
+    cout << " - " << "var_y=";
+    formatoutput(var(y, arrSize));
+    cout << endl;
+
+    cout << "stdev_x=";
+    formatoutput(sd(x, arrSize));
+    cout << " - " << "stdev_y=";
+    formatoutput(sd(y, arrSize));
+    cout << endl;
+
+    cout << "mad_x=";
+    formatoutput(meanAbsoluteDeviation(x, arrSize));
+    cout << " - " << "mad_y=";
+    formatoutput(meanAbsoluteDeviation(y, arrSize));
+    cout << endl;
+
+    cout << "skew_x=";
+    formatoutput(skewness(x, arrSize));
+    cout << " - " << "skew_y=";
+    formatoutput(skewness(y, arrSize));
+    cout << endl;
+
+    cout << "kurt_x=";
+    formatoutput(kurtosis(x, arrSize));
+    cout << " - " << "kurt_y=";
+    formatoutput(kurtosis(y, arrSize));
+    cout << endl;
+
+    cout << "cov(x_y) =";
+    formatoutput(cov(x, y, size));
+    cout << endl;
+    cout << "r(x_y) =";
+    formatoutput(corr(x, y, size));
+    cout << endl;
+    linreg(x,y,arrSize);
 
     // sort
     quickSort(x, 0, size);
     quickSort(y, 0, size);
-    cout << "median x: " << median(x, arrSize) << endl;
-    cout << "median y: " << median(y, arrSize) << endl;
-    cout << "1st quartile x : " << fquartile(x, size) << endl;
-    mode(x, size);
-    mode(y, size);
 
+    cout << "median_x=";
+    formatoutput(median(x, arrSize));
+    cout << " - ";
+
+    cout << "median_y=";
+    formatoutput(median(y, arrSize));
+    cout << endl;
+
+    cout << "q1_x=";
+    formatoutput(fquartile(x, size));
+    cout << " - ";
+
+    cout << "q1_y=";
+    formatoutput(fquartile(y, size));
+    cout << endl;
+
+    cout << "mode_x={";
+    mode(x, size);
+    cout << "}" << " - ";
+
+    cout << "mode_y={";
+    mode(y, size);
+    cout << "}" << endl;
+
+    groupinfo();
     infile.close();
     return 0;
 }
-
-
-
-
