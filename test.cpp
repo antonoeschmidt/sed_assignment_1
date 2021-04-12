@@ -165,12 +165,12 @@ double median(double arr[], int size) {
 double var(double arr[], int size)
 {
     double arrM = mean(arr, size);
-    double VAR = 0; // abb. for squared error, NOT standard error
-    for (int i = 0; i < size; i++)
+    double VAR = 0; 
+    for (int i = 0; i < size; i++) // 
     {
-        VAR += (arr[i] - arrM) * (arr[i] - arrM);
+        VAR += (arr[i] - arrM) * (arr[i] - arrM); // sum of squared residuals
     }
-    return VAR / (size - 1);
+    return VAR / (size - 1); // divide by sample size minus one
 }
 
 double sd(double arr[], int size)
@@ -193,55 +193,57 @@ double meanAbsoluteDeviation(double arr[], int size)
 void mode(double arr[], int size)
 {
     // arr[] is assumed to be sorted already
-    double mode = 0;
+    // initialize mode, the number of occurrences of mode (modeCount)
+    // current value, current count and number of modes
+    double mode = 0; 
     int modeCount = 0;
     int curVal = 0;
     int curCount = 0;
     int n_modes = 1;
     for (int i = 0; i < size; i++)
     {
-        if (arr[i] == curVal)
+        if (arr[i] == curVal) // the values are assumed to be sorted so if value is equal to current value current count goes up by one
         {
             curCount++;
         }
         else
         {
-            if (curCount > modeCount)
+            if (curCount > modeCount) // if there are no more of current value check if count is highest obtained so far
             {
-                mode = curVal;
-                modeCount = curCount;
-                n_modes = 1;
+                mode = curVal; // change mode
+                modeCount = curCount; // change modecount
+                n_modes = 1; // this is the first value with this many occurrences, so # of modes is one
             }
-            else if (curCount == modeCount)
+            else if (curCount == modeCount) // if it's another with highest # of occurrences, we have another mode
             {
                 n_modes++;
             }
-            curVal = arr[i];
-            curCount = 1;
+            curVal = arr[i]; // change current value
+            curCount = 1; // change current count
         }
     }
-    double modes[n_modes];
-    int modecounter = 0;
-    curVal = 0;
-    curCount = 0;
+    double modes[n_modes]; // initialize modes to how many modes we have
+    int modecounter = 0; // which number mode are we at?
+    curVal = 0; // initialization of current value ..
+    curCount = 0; // .. and current count
     for (int i = 0; i < size; i++)
     {
-        if (arr[i] == curVal)
+        if (arr[i] == curVal) // count number of occurrences as before
         {
             curCount++;
         }
         else
         {
-            if (curCount == modeCount)
+            if (curCount == modeCount) // add to modes if we have enough occurrences
             {
                 modes[modecounter] = curVal;
                 modecounter++;
             }
-            curVal = arr[i];
-            curCount = 1;
+            curVal = arr[i]; // change current value ..
+            curCount = 1; // .. and count
         }
     }
-    for (int i = 0; i < n_modes; i++)
+    for (int i = 0; i < n_modes; i++) // cout modes
     {
         cout << "mode " << i + 1 << " is " << modes[i] << endl;
     }
