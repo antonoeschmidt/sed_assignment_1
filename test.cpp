@@ -85,6 +85,8 @@ void splitting(string buffer, string delimiter, double *x, double *y)
 
     *y = stof(buffer.substr(startpos, endpos - startpos));
 }
+
+//Array filling function
 void fillarray(ifstream &infile, double *x, double *y, int size)
 {
     char delimiter[] = ",";
@@ -92,6 +94,9 @@ void fillarray(ifstream &infile, double *x, double *y, int size)
     for (int i = 0; i < size; i++)
     {
         infile >> buffer;
+        /* Error checking and handling by trying stof() and see if it throws an invalid argument,
+        indicating that the input is not valid, and if thats the case, retain the current array position and continue
+        */
         try
         {
             splitting(buffer, delimiter, &x[i], &y[i]);
@@ -103,6 +108,8 @@ void fillarray(ifstream &infile, double *x, double *y, int size)
         }
     }
 }
+
+//Checks and counts the amount of valid input containing lines and return it
 int getlinenum(ifstream &infile)
 {
     int linenum = 0;
@@ -113,6 +120,9 @@ int getlinenum(ifstream &infile)
         getline(infile, line);
         double x[sizeof(line)];
         double y[sizeof(line)];
+        /* Error checking and handling by trying stof() and see if it throws an invalid argument,
+        indicating that the input in the line is not valid, and if thats the case, don't count and continue
+        */
         try
         {
             splitting(line, delimiter, x, y);
