@@ -174,14 +174,13 @@ double median(double arr[], int size)
             median = (median + arr[size / 2 - 1]) / 2;
         }
     }
-    // cout << "median= " << median << endl;
     return median;
 };
 double var(double arr[], int size)
 {
     double arrM = mean(arr, size);
-    double VAR = 0; 
-    for (int i = 0; i < size; i++) // 
+    double VAR = 0;
+    for (int i = 0; i < size; i++)
     {
         VAR += (arr[i] - arrM) * (arr[i] - arrM); // sum of squared residuals
     }
@@ -210,7 +209,7 @@ void mode(double arr[], int size)
     // arr[] is assumed to be sorted already
     // initialize mode, the number of occurrences of mode (modeCount)
     // current value, current count and number of modes
-    double mode = 0; 
+    double mode = 0;
     int modeCount = 0;
     int curVal = 0;
     int curCount = 0;
@@ -225,22 +224,22 @@ void mode(double arr[], int size)
         {
             if (curCount > modeCount) // if there are no more of current value check if count is highest obtained so far
             {
-                mode = curVal; // change mode
+                mode = curVal;        // change mode
                 modeCount = curCount; // change modecount
-                n_modes = 1; // this is the first value with this many occurrences, so # of modes is one
+                n_modes = 1;          // this is the first value with this many occurrences, so # of modes is one
             }
             else if (curCount == modeCount) // if it's another with highest # of occurrences, we have another mode
             {
                 n_modes++;
             }
             curVal = arr[i]; // change current value
-            curCount = 1; // change current count
+            curCount = 1;    // change current count
         }
     }
     double modes[n_modes]; // initialize modes to how many modes we have
-    int modecounter = 0; // which number mode are we at?
-    curVal = 0; // initialization of current value ..
-    curCount = 0; // .. and current count
+    int modecounter = 0;   // which number mode are we at?
+    curVal = 0;            // initialization of current value ..
+    curCount = 0;          // .. and current count
     for (int i = 0; i < size; i++)
     {
         if (arr[i] == curVal) // count number of occurrences as before
@@ -255,12 +254,12 @@ void mode(double arr[], int size)
                 modecounter++;
             }
             curVal = arr[i]; // change current value ..
-            curCount = 1; // .. and count
+            curCount = 1;    // .. and count
         }
     }
     for (int i = 0; i < n_modes; i++) // cout modes
     {
-        if(i != 0 )
+        if (i != 0)
         {
             cout << ",";
         }
@@ -282,14 +281,16 @@ double skewness(double arr[], int size)
     return sum / size;
 }
 
-double kurtosis(double arr[], int size){
-    double sum; 
+double kurtosis(double arr[], int size)
+{
+    double sum;
     double aMean = mean(arr, size);
     double s = sd(arr, size);
-    for(int i = 0; i<size; i++){
+    for (int i = 0; i < size; i++)
+    {
         sum += pow((arr[i] - aMean) / s, 4);
     }
-    return sum / size - 3; 
+    return sum / size - 3;
 }
 
 double fquartile(double arr[], int size)
@@ -317,10 +318,11 @@ double corr(double x[], double y[], int size)
     return cov(x, y, size) / (sd(x, size) * sd(y, size));
 }
 
-void linreg(double x[], double y[], int size){
+void linreg(double x[], double y[], int size)
+{
     double sdX = sd(x, size);
     double sdY = sd(y, size);
-    double r = corr(x,y,size);
+    double r = corr(x, y, size);
     double a = r * sdY / sdX;
     cout << "y = " << a << "x + " << mean(y, size) - a * mean(x, size) << endl;
     return;
@@ -355,31 +357,36 @@ int main(int argc, char *argv[])
     //OUTPUT
     cout << "var_x=";
     formatoutput(var(x, arrSize));
-    cout << " - " << "var_y=";
+    cout << " - "
+         << "var_y=";
     formatoutput(var(y, arrSize));
     cout << endl;
 
     cout << "stdev_x=";
     formatoutput(sd(x, arrSize));
-    cout << " - " << "stdev_y=";
+    cout << " - "
+         << "stdev_y=";
     formatoutput(sd(y, arrSize));
     cout << endl;
 
     cout << "mad_x=";
     formatoutput(meanAbsoluteDeviation(x, arrSize));
-    cout << " - " << "mad_y=";
+    cout << " - "
+         << "mad_y=";
     formatoutput(meanAbsoluteDeviation(y, arrSize));
     cout << endl;
 
     cout << "skew_x=";
     formatoutput(skewness(x, arrSize));
-    cout << " - " << "skew_y=";
+    cout << " - "
+         << "skew_y=";
     formatoutput(skewness(y, arrSize));
     cout << endl;
 
     cout << "kurt_x=";
     formatoutput(kurtosis(x, arrSize));
-    cout << " - " << "kurt_y=";
+    cout << " - "
+         << "kurt_y=";
     formatoutput(kurtosis(y, arrSize));
     cout << endl;
 
@@ -389,7 +396,7 @@ int main(int argc, char *argv[])
     cout << "r(x_y) =";
     formatoutput(corr(x, y, size));
     cout << endl;
-    linreg(x,y,arrSize);
+    linreg(x, y, arrSize);
 
     // sort
     quickSort(x, 0, size);
@@ -413,7 +420,8 @@ int main(int argc, char *argv[])
 
     cout << "mode_x={";
     mode(x, size);
-    cout << "}" << " - ";
+    cout << "}"
+         << " - ";
 
     cout << "mode_y={";
     mode(y, size);
