@@ -151,20 +151,15 @@ double mean(double arr[], int size)
 double median(double arr[], int size)
 {
     double median = 0;
-
-    for (int i = 0; i < size - 1; i++)
+    if ((size - 1) % 2 != 0)
     {
-        if ((size - 1) % 2 != 0)
-        {
-            median = arr[(size - 1) / 2];
-        }
-        else
-        {
-            median = arr[(size - 1) / 2];
-            median = (median + arr[size / 2 - 1]) / 2;
-        }
+        median = arr[(size - 1) / 2];
     }
-    // cout << "median= " << median << endl;
+    else
+    {
+        median = arr[(size - 1) / 2];
+        median = (median + arr[size / 2 - 1]) / 2;
+    }
     return median;
 };
 double var(double arr[], int size)
